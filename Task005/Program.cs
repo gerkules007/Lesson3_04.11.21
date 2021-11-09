@@ -1,8 +1,8 @@
-﻿int Function(int x)
+﻿double Function(double x)
 {
-    int y = x * x + 10;
+    double y = Math.Sin(x) + 10;
     return y;
 }
 Console.WriteLine("Введите число x");
-int a = Convert.ToInt32(Console.ReadLine());
-Console.WriteLine($"Ваш ответ {Function(a)}");
+double a = Convert.ToDouble(Console.ReadLine());
+Console.WriteLine($"Ваш ответ {Function(a):F2}");
