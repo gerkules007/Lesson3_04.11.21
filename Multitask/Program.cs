@@ -44,3 +44,5 @@ string[] text = { "Введите первое число", "Введите вт
 int[] arr = CreateArrayInt32(text);
 for (int i = 0; i < text.Length; i++) InputData(text, arr, i);
 Console.WriteLine(string.Join(" ", arr));
+Array.ConvertAll<int,double>(arr, x => x);
+//var d = i.Select(x => (double)x).ToArray();
