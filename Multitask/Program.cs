@@ -67,29 +67,22 @@ void ChooseProgramm(string task)
             Programm000();
             break;
         case "18":
-            Console.WriteLine("Задание: Проверить истинность утверждения ¬(X ⋁ Y) = ¬X ⋀ ¬Y");
-            System.Threading.Thread.Sleep(2000);
             Programm018();
             break;
         case "19":
-            Console.WriteLine("Задание: Определить номер четверти плоскости, в которой находится точка с координатами Х и У, причем X ≠ 0 и Y ≠ 0");
-            System.Threading.Thread.Sleep(2000);
             Programm019();
             break;
         case "20":
-            Console.WriteLine("Задание: Ввести номер четверти, показать диапазоны для возможных координат");
-            System.Threading.Thread.Sleep(2000);
             Programm020();
             break;
         case "21":
-            Console.WriteLine("Задание: Проверить пятизначное число на палидром");
-            System.Threading.Thread.Sleep(2000);
             Programm021();
             break;
         case "22":
-            Console.WriteLine("Задание: Найти расстояние между точкамами в пространстве 2D/3D");
-            System.Threading.Thread.Sleep(2000);
             Programm022();
+            break;
+        case "23":
+            Programm023();
             break;
         default:
             Console.WriteLine("Такой задачи не существует, попробуйте еще раз");
@@ -201,20 +194,32 @@ double[] ToDoubleArray(string[] remakearray)
 }
 
 
-double[] CreateArrayDouble(string[] array1)
+// double[] CreateArrayDouble(string[] array1)
+// {
+//     double[] array2 = { -1 };
+//     int count = array1.Length;
+//     Array.Resize(ref array2, count);
+//     return array2;
+// }
+
+int[] CreateArrayInt(string minCount, string maxCount)
 {
-    double[] array2 = { -1 };
-    int count = array1.Length;
-    Array.Resize(ref array2, count);
-    return array2;
+    int minCAI = Convert.ToInt32(minCount);
+    int maxCAI = Convert.ToInt32(maxCount);
+    int maxCountIndex = maxCAI - minCAI + 1;
+    int[] newArrayCAI = new int[maxCountIndex];
+    foreach (int numberCAI in newArrayCAI) minCAI++;
+    return newArrayCAI;
 }
 
-char[] CreateArrayToChar(string[] array1)
+string CreateStringAsArray(string minCount, string maxCount)
 {
-    char[] array2 = { 'E' };
-    int count = array1.Length;
-    Array.Resize(ref array2, count);
-    return array2;
+    int minCAI = Convert.ToInt32(minCount);
+    int maxCAI = Convert.ToInt32(maxCount);
+    int maxCountIndex = maxCAI - minCAI + 1;
+    string newString = String.Empty;
+    for (int iCAI = 0; iCAI < maxCountIndex; iCAI++) newString += $"{minCAI++} ";
+    return newString;
 }
 
 string Reverse(string inputReverse)
@@ -225,6 +230,19 @@ string Reverse(string inputReverse)
         outputReverse += inputReverse[ir];
     }
     return outputReverse;
+}
+
+string[] SeparateArray(string separateArr)
+{
+    string[] newSA = new string[separateArr.Length];
+    string result = string.Empty;
+    for (int iSA = 0, jSA = 0; iSA < separateArr.Length; iSA++)
+    {
+        if (separateArr[iSA] == ' ')
+        { newSA[jSA++] = result; result = string.Empty; }
+        else result += $"{separateArr[iSA]}";
+    }
+    return newSA;
 }
 
 void PrintArrayOneLineIntoConsole(string[] printarr)
@@ -244,6 +262,8 @@ void Programm000()
 
 void Programm018()
 {
+    Console.WriteLine("Задание: Проверить истинность утверждения ¬(X ⋁ Y) = ¬X ⋀ ¬Y");
+    System.Threading.Thread.Sleep(2000);
     string[] text18 = { "Введите первое условие", "Введите второе условие" };
     string[] arr18 = InputData(text18, 0);
     bool bone = ToBoolean(arr18, 0);
@@ -254,6 +274,8 @@ void Programm018()
 
 void Programm019()
 {
+    Console.WriteLine("Задание: Определить номер четверти плоскости, в которой находится точка с координатами Х и У, причем X ≠ 0 и Y ≠ 0");
+    System.Threading.Thread.Sleep(2000);
     string[] text19 = { "Введите координаты x", "Введите координаты y" };
     string[] arr19 = InputData(text19, 1);
     string[] workarr19 = { "0" };
@@ -290,6 +312,8 @@ void Programm019()
 
 void Programm020()
 {
+    Console.WriteLine("Задание: Ввести номер четверти, показать диапазоны для возможных координат");
+    System.Threading.Thread.Sleep(2000);
     string[] text20 = { "Number of quarter" };
     string[] arr20 = InputData(text20, 1);
     string[] instruction20 = { "1 quater", "2 quater", "3 quater", "4 quater" };
@@ -315,6 +339,8 @@ void Programm020()
 }
 void Programm021()
 {
+    Console.WriteLine("Задание: Проверить пятизначное число на палидром");
+    System.Threading.Thread.Sleep(2000);
     string[] text21 = { "Palindrome" };
     string[] arr21 = InputData(text21, 3);
     string newstring21 = Reverse(arr21[0]);
@@ -324,6 +350,8 @@ void Programm021()
 
 void Programm022()
 {
+    Console.WriteLine("Задание: Найти расстояние между точкамами в пространстве 2D/3D");
+    System.Threading.Thread.Sleep(2000);
     string[] text22 = { "X.1", "Y.1", "Z.1", "X.2", "Y.2", "Z.2" };
     string resulttext22 = "Distanse of two dots";
     string[] arr22 = InputData(text22, 1);
@@ -336,7 +364,15 @@ void Programm022()
 
 void Programm023()
 {
-    
+    Console.WriteLine("Показать таблицу квадратов чисел от 1 до N");
+    System.Threading.Thread.Sleep(2000);
+    string[] text23 = { "N number" };
+    string[] arr23 = InputData(text23, 2);
+    int i23 = 0;
+    string tempstring23 = CreateStringAsArray("1", arr23[i23]);
+    Console.WriteLine(tempstring23);
+    string[] newArr23 = SeparateArray(tempstring23);
+    PrintArrayOneLineIntoConsole(newArr23);
 }
 // Main
 // Console.WriteLine("Введите свое имя");
