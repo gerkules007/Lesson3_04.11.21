@@ -168,7 +168,7 @@ bool ToBoolean(string[] arr, int index)
     }
 }
 
-void WriteCondition(string conductionResult, string result, int toolwrite)
+void WriteResult(string conductionResult, string result, int toolwrite)
 {
     switch (toolwrite)
     {
@@ -193,7 +193,6 @@ double[] ToDoubleArray(string[] remakearray)
     return newarr;
 }
 
-
 // double[] CreateArrayDouble(string[] array1)
 // {
 //     double[] array2 = { -1 };
@@ -202,23 +201,23 @@ double[] ToDoubleArray(string[] remakearray)
 //     return array2;
 // }
 
-int[] CreateArrayInt(string minCount, string maxCount)
+double[] CreateArrayDoubleRange(string minCount, string maxCount)
 {
     int minCAI = Convert.ToInt32(minCount);
     int maxCAI = Convert.ToInt32(maxCount);
     int maxCountIndex = maxCAI - minCAI + 1;
-    int[] newArrayCAI = new int[maxCountIndex];
-    foreach (int numberCAI in newArrayCAI) minCAI++;
+    double[] newArrayCAI = new double[maxCountIndex];
+    for (int iCAI = 0; iCAI < maxCountIndex; iCAI++) newArrayCAI[iCAI] += minCAI++;
     return newArrayCAI;
 }
 
 string CreateStringAsArray(string minCount, string maxCount)
 {
-    int minCAI = Convert.ToInt32(minCount);
-    int maxCAI = Convert.ToInt32(maxCount);
-    int maxCountIndex = maxCAI - minCAI + 1;
+    int minCAS = Convert.ToInt32(minCount);
+    int maxCAS = Convert.ToInt32(maxCount);
+    int maxCountIndex = maxCAS - minCAS + 1;
     string newString = String.Empty;
-    for (int iCAI = 0; iCAI < maxCountIndex; iCAI++) newString += $"{minCAI++} ";
+    for (int iCAS = 0; iCAS < maxCountIndex; iCAS++) newString += $"{minCAS++} ";
     return newString;
 }
 
@@ -245,16 +244,24 @@ string[] SeparateArray(string separateArr)
     return newSA;
 }
 
-void PrintArrayOneLineIntoConsole(string[] printarr)
+void PrintArrayIntoConsole(string[] printarr, int printset)
 {
-    Console.WriteLine(string.Join(" ", printarr));
+    switch (printset)
+    {
+        case 0:
+            Console.WriteLine(string.Join(" ", printarr));
+            break;
+        case 1:
+            foreach (string print in printarr) Console.WriteLine(print);
+            break;
+    }
 }
 
 void Programm000()
 {
     string[] text0 = { "Введите первое число", "Введите второе число" };
     string[] arr0 = InputData(text0, 0);
-    PrintArrayOneLineIntoConsole(arr0);
+    PrintArrayIntoConsole(arr0, 0);
     int j0 = 0;
     if (CheckConditionForNumb(arr0[j0], arr0[j0 + 1], 1)) Console.WriteLine($"Число {arr0[0]} меньше числа {arr0[1]}");
     else { Console.WriteLine($"Число {arr0[0]} больше числа {arr0[1]}"); }
@@ -321,16 +328,16 @@ void Programm020()
     switch (arr20[0])
     {
         case "1":
-            WriteCondition(instruction20[0], result20[0], 0);
+            WriteResult(instruction20[0], result20[0], 0);
             break;
         case "2":
-            WriteCondition(instruction20[1], result20[1], 0);
+            WriteResult(instruction20[1], result20[1], 0);
             break;
         case "3":
-            WriteCondition(instruction20[2], result20[2], 0);
+            WriteResult(instruction20[2], result20[2], 0);
             break;
         case "4":
-            WriteCondition(instruction20[3], result20[3], 0);
+            WriteResult(instruction20[3], result20[3], 0);
             break;
         default:
             Console.WriteLine("Uncorrect indentify quater. Check correct number.");
@@ -344,8 +351,8 @@ void Programm021()
     string[] text21 = { "Palindrome" };
     string[] arr21 = InputData(text21, 3);
     string newstring21 = Reverse(arr21[0]);
-    if (CheckConditionForNumb(arr21[0], newstring21, 4)) WriteCondition(arr21[0], text21[0], 0);
-    else { WriteCondition(arr21[0], text21[0], 1); }
+    if (CheckConditionForNumb(arr21[0], newstring21, 4)) WriteResult(arr21[0], text21[0], 0);
+    else { WriteResult(arr21[0], text21[0], 1); }
 }
 
 void Programm022()
@@ -359,20 +366,24 @@ void Programm022()
     int i22 = 0;
     // result = корень из (x1-x2)^2 + (y1-y2)^2
     string result22 = Convert.ToString(Math.Round(Math.Sqrt(Math.Pow((changearr22[i22] - changearr22[i22 + 3]), 2) + Math.Pow((changearr22[i22 + 1] - changearr22[i22 + 4]), 2) + Math.Pow((changearr22[i22 + 2] - changearr22[i22 + 5]), 2)), 2));
-    WriteCondition(resulttext22, result22, 0);
+    WriteResult(resulttext22, result22, 0);
 }
 
 void Programm023()
 {
-    Console.WriteLine("Показать таблицу квадратов чисел от 1 до N");
+    string task23 = "Показать таблицу квадратов чисел от 1 до N";
+    Console.WriteLine(task23);
     System.Threading.Thread.Sleep(2000);
     string[] text23 = { "N number" };
     string[] arr23 = InputData(text23, 2);
     int i23 = 0;
-    string tempstring23 = CreateStringAsArray("1", arr23[i23]);
-    Console.WriteLine(tempstring23);
-    string[] newArr23 = SeparateArray(tempstring23);
-    PrintArrayOneLineIntoConsole(newArr23);
+    double[] newArr23 = CreateArrayDoubleRange("1", arr23[i23]);
+    double[] arrResult23 = new double[newArr23.Length];
+    for (i23 = 0; i23 < arrResult23.Length; i23++) 
+    {
+        arrResult23[i23] = Math.Pow(newArr23[i23], 2);
+        WriteResult(Convert.ToString(newArr23[i23]), Convert.ToString(arrResult23[i23]), 0);
+    }
 }
 // Main
 // Console.WriteLine("Введите свое имя");
