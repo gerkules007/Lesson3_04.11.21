@@ -86,6 +86,11 @@ void ChooseProgramm(string task)
             System.Threading.Thread.Sleep(2000);
             Programm021();
             break;
+        case "22":
+            Console.WriteLine("Задание: Найти расстояние между точкамами в пространстве 2D/3D");
+            System.Threading.Thread.Sleep(2000);
+            Programm022();
+            break;
         default:
             Console.WriteLine("Такой задачи не существует, попробуйте еще раз");
             break;
@@ -189,11 +194,11 @@ int[] ToIntArray(string[] remakearray)
     return newarr;
 }
 
-// double[] ToDoubleArray(string[] remakearray)
-// {
-//     double[] newarr = remakearray.Select<string, double>(s => Double.Parse(s)).ToArray<double>();
-//     return newarr;
-// }
+double[] ToDoubleArray(string[] remakearray)
+{
+    double[] newarr = remakearray.Select<string, double>(s => Double.Parse(s)).ToArray<double>();
+    return newarr;
+}
 
 
 double[] CreateArrayDouble(string[] array1)
@@ -314,10 +319,22 @@ void Programm021()
     string[] arr21 = InputData(text21, 3);
     string newstring21 = Reverse(arr21[0]);
     if (CheckConditionForNumb(arr21[0], newstring21, 4)) WriteCondition(arr21[0], text21[0], 0);
-    else {WriteCondition(arr21[0], text21[0], 1);}
+    else { WriteCondition(arr21[0], text21[0], 1); }
 }
 
 void Programm022()
+{
+    string[] text22 = { "X.1", "Y.1", "Z.1", "X.2", "Y.2", "Z.2" };
+    string resulttext22 = "Distanse of two dots";
+    string[] arr22 = InputData(text22, 1);
+    double[] changearr22 = ToDoubleArray(arr22);
+    int i22 = 0;
+    // result = корень из (x1-x2)^2 + (y1-y2)^2
+    string result22 = Convert.ToString(Math.Round(Math.Sqrt(Math.Pow((changearr22[i22] - changearr22[i22 + 3]), 2) + Math.Pow((changearr22[i22 + 1] - changearr22[i22 + 4]), 2) + Math.Pow((changearr22[i22 + 2] - changearr22[i22 + 5]), 2)), 2));
+    WriteCondition(resulttext22, result22, 0);
+}
+
+void Programm023()
 {
     
 }
