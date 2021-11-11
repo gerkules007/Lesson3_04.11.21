@@ -87,6 +87,9 @@ void ChooseProgramm(string task)
         case "24":
             Programm024();
             break;
+        case "25":
+            Programm025();
+            break;
         default:
             Console.WriteLine("Такой задачи не существует, попробуйте еще раз");
             break;
@@ -398,6 +401,21 @@ void Programm024()
     for (i24 = 0; i24 < arrResult24.Length; i24++) arrResult24[i24] = Math.Pow(newArr24[i24], 3);
     task24 = $"Найти кубы чисел от 1 до {arr24[0]}";
     WriteResult(task24, CreateStringAsArray(arrResult24), 0);
+}
+
+void Programm025()
+{
+    string task25 = "Найти сумму чисел от 1 до А";
+    Console.WriteLine(task25);
+    System.Threading.Thread.Sleep(2000);
+    string[] text25 = { "A number" };
+    string[] arr25 = InputData(text25, 2);
+    int i25 = 0;
+    double[] newArr25 = CreateArrayDoubleRange("1", arr25[i25]);
+    double summ = 0;
+    for (; i25 < newArr25.Length; i25++) summ += newArr25[i25];
+    task25 = $"Найти сумму чисел от 1 до {arr25[0]}";
+    WriteResult(task25, Convert.ToString(summ), 0);
 }
 
 // Main
