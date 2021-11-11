@@ -84,6 +84,9 @@ void ChooseProgramm(string task)
         case "23":
             Programm023();
             break;
+        case "24":
+            Programm024();
+            break;
         default:
             Console.WriteLine("Такой задачи не существует, попробуйте еще раз");
             break;
@@ -211,13 +214,10 @@ double[] CreateArrayDoubleRange(string minCount, string maxCount)
     return newArrayCAI;
 }
 
-string CreateStringAsArray(string minCount, string maxCount)
+string CreateStringAsArray(double[] doubleArr)
 {
-    int minCAS = Convert.ToInt32(minCount);
-    int maxCAS = Convert.ToInt32(maxCount);
-    int maxCountIndex = maxCAS - minCAS + 1;
     string newString = String.Empty;
-    for (int iCAS = 0; iCAS < maxCountIndex; iCAS++) newString += $"{minCAS++} ";
+    for (int iCAS = 0; iCAS < doubleArr.Length; iCAS++) newString += $"{doubleArr[iCAS]} ";
     return newString;
 }
 
@@ -371,20 +371,35 @@ void Programm022()
 
 void Programm023()
 {
-    string task23 = "Показать таблицу квадратов чисел от 1 до N";
-    Console.WriteLine(task23);
+    Console.WriteLine("Показать таблицу квадратов чисел от 1 до N");
     System.Threading.Thread.Sleep(2000);
     string[] text23 = { "N number" };
     string[] arr23 = InputData(text23, 2);
     int i23 = 0;
     double[] newArr23 = CreateArrayDoubleRange("1", arr23[i23]);
     double[] arrResult23 = new double[newArr23.Length];
-    for (i23 = 0; i23 < arrResult23.Length; i23++) 
+    for (i23 = 0; i23 < arrResult23.Length; i23++)
     {
         arrResult23[i23] = Math.Pow(newArr23[i23], 2);
         WriteResult(Convert.ToString(newArr23[i23]), Convert.ToString(arrResult23[i23]), 0);
     }
 }
+
+void Programm024()
+{
+    string task24 = "Найти кубы чисел от 1 до N";
+    Console.WriteLine(task24);
+    System.Threading.Thread.Sleep(2000);
+    string[] text24 = { "N number" };
+    string[] arr24 = InputData(text24, 2);
+    int i24 = 0;
+    double[] newArr24 = CreateArrayDoubleRange("1", arr24[i24]);
+    double[] arrResult24 = new double[newArr24.Length];
+    for (i24 = 0; i24 < arrResult24.Length; i24++) arrResult24[i24] = Math.Pow(newArr24[i24], 3);
+    task24 = $"Найти кубы чисел от 1 до {arr24[0]}";
+    WriteResult(task24, CreateStringAsArray(arrResult24), 0);
+}
+
 // Main
 // Console.WriteLine("Введите свое имя");
 // var name = Console.ReadLine()!;
