@@ -67,19 +67,24 @@ void ChooseProgramm(string task)
             Programm000();
             break;
         case "18":
-            Console.WriteLine("Проверить истинность утверждения ¬(X ⋁ Y) = ¬X ⋀ ¬Y");
+            Console.WriteLine("Задание: Проверить истинность утверждения ¬(X ⋁ Y) = ¬X ⋀ ¬Y");
             System.Threading.Thread.Sleep(2000);
             Programm018();
             break;
         case "19":
-            Console.WriteLine("Определить номер четверти плоскости, в которой находится точка с координатами Х и У, причем X ≠ 0 и Y ≠ 0");
+            Console.WriteLine("Задание: Определить номер четверти плоскости, в которой находится точка с координатами Х и У, причем X ≠ 0 и Y ≠ 0");
             System.Threading.Thread.Sleep(2000);
             Programm019();
             break;
         case "20":
-            Console.WriteLine("Ввести номер четверти, показать диапазоны для возможных координат");
+            Console.WriteLine("Задание: Ввести номер четверти, показать диапазоны для возможных координат");
             System.Threading.Thread.Sleep(2000);
             Programm020();
+            break;
+        case "21":
+            Console.WriteLine("Задание: Проверить пятизначное число на палидром");
+            System.Threading.Thread.Sleep(2000);
+            Programm021();
             break;
         default:
             Console.WriteLine("Такой задачи не существует, попробуйте еще раз");
@@ -105,7 +110,13 @@ string[] InputData(string[] firstarr, int tool)
                     conduction = String.IsNullOrEmpty(inputdata);
                     break;
                 case 1:
-                    conduction = !(Double.TryParse(inputdata, out double number) ^ String.IsNullOrEmpty(inputdata));
+                    conduction = !(Double.TryParse(inputdata, out double outnumber) ^ String.IsNullOrEmpty(inputdata));
+                    break;
+                case 2:
+                    conduction = !(Int32.TryParse(inputdata, out int outnumber2) ^ String.IsNullOrEmpty(inputdata));
+                    break;
+                case 3:
+                    conduction = !((Int32.TryParse(inputdata, out int outnumber3) && 10000 <= outnumber3 && outnumber3 < 100000) ^ String.IsNullOrEmpty(inputdata));
                     break;
             }
         } while (conduction);
@@ -114,11 +125,11 @@ string[] InputData(string[] firstarr, int tool)
     return secondarr;
 }
 
-bool CheckConditionForNumb(string[] c1, int index1, string[] c2, int index2, int Ncompare)
+bool CheckConditionForNumb(string c1, string c2, int Ncompare)
 {
     bool CC = false;
-    var nc1 = Int32.TryParse(c1[index1], out int result1) ? Convert.ToInt32(c1[index1]) : Convert.ToDouble(c1[index1]);
-    var nc2 = Int32.TryParse(c2[index2], out int result2) ? Convert.ToInt32(c2[index2]) : Convert.ToDouble(c2[index2]);
+    var nc1 = Int32.TryParse(c1, out int result1) ? Convert.ToInt32(c1) : Convert.ToDouble(c1);
+    var nc2 = Int32.TryParse(c2, out int result2) ? Convert.ToInt32(c2) : Convert.ToDouble(c2);
 
     switch (Ncompare)
     {
@@ -159,9 +170,17 @@ bool ToBoolean(string[] arr, int index)
     }
 }
 
-void WriteCondition(string conductionResult, string result)
+void WriteCondition(string conductionResult, string result, int toolwrite)
 {
-    Console.WriteLine($"Result for {conductionResult} = {result}");
+    switch (toolwrite)
+    {
+        case 0:
+            Console.WriteLine($"Result for {conductionResult} = {result}");
+            break;
+        case 1:
+            Console.WriteLine($"Result for {conductionResult} not = {result}");
+            break;
+    }
 }
 
 int[] ToIntArray(string[] remakearray)
@@ -193,6 +212,16 @@ char[] CreateArrayToChar(string[] array1)
     return array2;
 }
 
+string Reverse(string inputReverse)
+{
+    string outputReverse = String.Empty;
+    for (int ir = inputReverse.Length - 1; ir >= 0; ir--)
+    {
+        outputReverse += inputReverse[ir];
+    }
+    return outputReverse;
+}
+
 void PrintArrayOneLineIntoConsole(string[] printarr)
 {
     Console.WriteLine(string.Join(" ", printarr));
@@ -204,7 +233,7 @@ void Programm000()
     string[] arr0 = InputData(text0, 0);
     PrintArrayOneLineIntoConsole(arr0);
     int j0 = 0;
-    if (CheckConditionForNumb(arr0, j0, arr0, j0 + 1, 1)) Console.WriteLine($"Число {arr0[0]} меньше числа {arr0[1]}");
+    if (CheckConditionForNumb(arr0[j0], arr0[j0 + 1], 1)) Console.WriteLine($"Число {arr0[0]} меньше числа {arr0[1]}");
     else { Console.WriteLine($"Число {arr0[0]} больше числа {arr0[1]}"); }
 }
 
@@ -223,11 +252,11 @@ void Programm019()
     string[] text19 = { "Введите координаты x", "Введите координаты y" };
     string[] arr19 = InputData(text19, 1);
     string[] workarr19 = { "0" };
-    bool checkX = CheckConditionForNumb(workarr19, 0, arr19, 0, 1);
-    bool checkY = CheckConditionForNumb(workarr19, 0, arr19, 1, 1);
+    bool checkX = CheckConditionForNumb(workarr19[0], arr19[0], 1);
+    bool checkY = CheckConditionForNumb(workarr19[0], arr19[1], 1);
     Console.WriteLine($"{checkX} {checkY}");
     // case (x == 0 || y == 0):
-    if (CheckConditionForNumb(workarr19, 0, arr19, 0, 4) || CheckConditionForNumb(workarr19, 0, arr19, 1, 4))
+    if (CheckConditionForNumb(workarr19[0], arr19[0], 4) || CheckConditionForNumb(workarr19[0], arr19[1], 4))
     {
         Console.Write(".");
         System.Threading.Thread.Sleep(500);
@@ -260,27 +289,38 @@ void Programm020()
     string[] arr20 = InputData(text20, 1);
     string[] instruction20 = { "1 quater", "2 quater", "3 quater", "4 quater" };
     string[] result20 = { "x = (0, +infinity), y = (0, +infinity)", "x = (-infinity, 0), y = (0, +infinity)", "x = (-infinity, 0), y = (-infinity, 0)", "x = (0, +infinity), y = (-infinity, 0)" };
-    int[] newarr20 = ToIntArray(arr20);
-    switch (newarr20[0])
+    switch (arr20[0])
     {
-        case 1:
-            WriteCondition(instruction20[0], result20[0]);
+        case "1":
+            WriteCondition(instruction20[0], result20[0], 0);
             break;
-        case 2:
-            WriteCondition(instruction20[1], result20[1]);
+        case "2":
+            WriteCondition(instruction20[1], result20[1], 0);
             break;
-        case 3:
-            WriteCondition(instruction20[2], result20[2]);
+        case "3":
+            WriteCondition(instruction20[2], result20[2], 0);
             break;
-        case 4:
-            WriteCondition(instruction20[3], result20[3]);
+        case "4":
+            WriteCondition(instruction20[3], result20[3], 0);
             break;
         default:
             Console.WriteLine("Uncorrect indentify quater. Check correct number.");
             break;
     }
 }
+void Programm021()
+{
+    string[] text21 = { "Palindrome" };
+    string[] arr21 = InputData(text21, 3);
+    string newstring21 = Reverse(arr21[0]);
+    if (CheckConditionForNumb(arr21[0], newstring21, 4)) WriteCondition(arr21[0], text21[0], 0);
+    else {WriteCondition(arr21[0], text21[0], 1);}
+}
 
+void Programm022()
+{
+    
+}
 // Main
 // Console.WriteLine("Введите свое имя");
 // var name = Console.ReadLine()!;
