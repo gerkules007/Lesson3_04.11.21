@@ -175,47 +175,6 @@ string[] InputData(string[] firstarr, int tool)
     return secondarr;
 }
 
-string[] InputData2(string[] firstarr)
-{
-    string[] secondarr = new string[firstarr.Length];
-    tool = true;
-    string inputdata = Console.ReadLine()!;
-
-    if (Double.TryParse(inputdata, out double outnumber))
-    {
-        outnumber = Convert.ToInt64(outnumber);
-        conduction = false;
-    }
-
-    for (int inputI = 0; inputI < firstarr.Length; inputI++)
-    {
-        string inputdata = String.Empty;
-        bool conduction = false;
-        do
-        {
-            Console.WriteLine(firstarr[inputI]);
-            inputdata = Console.ReadLine()!;
-            switch (tool)
-            {
-                case 0:
-                    conduction = String.IsNullOrEmpty(inputdata);
-                    break;
-                case 1:
-                    conduction = !(Double.TryParse(inputdata, out double outnumber) ^ String.IsNullOrEmpty(inputdata));
-                    break;
-                case 2:
-                    conduction = !(Int32.TryParse(inputdata, out int outnumber2) ^ String.IsNullOrEmpty(inputdata));
-                    break;
-                case 3:
-                    conduction = !((Int32.TryParse(inputdata, out int outnumber3) && 10000 <= outnumber3 && outnumber3 < 100000) ^ String.IsNullOrEmpty(inputdata));
-                    break;
-            }
-        } while (conduction);
-        secondarr[inputI] = inputdata;
-    }
-    return secondarr;
-}
-
 bool CheckConditionForNumb(string c1, string c2, int Ncompare)
 {
     bool CC = false;
