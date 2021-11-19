@@ -28,17 +28,17 @@ void Enterprogram()
         {
             case true:
                 Console.Write("Загружаю");
-                System.Threading.Thread.Sleep(500);
+                System.Threading.Thread.Sleep(400);
                 Console.Write(".");
-                System.Threading.Thread.Sleep(500);
+                System.Threading.Thread.Sleep(400);
                 Console.Write(".");
-                System.Threading.Thread.Sleep(500);
+                System.Threading.Thread.Sleep(400);
                 Console.Write(".");
                 Console.WriteLine();
                 Console.Clear();
                 ChooseProgramm(commresult[0]);
                 Console.WriteLine();
-                System.Threading.Thread.Sleep(1000);
+                System.Threading.Thread.Sleep(500);
                 break;
             case false:
                 switch (commresult[0])
@@ -90,16 +90,103 @@ void ChooseProgramm(string task)
         case "25":
             Programm025();
             break;
+        case "26":
+            Programm026();
+            break;
+        case "27":
+            Programm027028();
+            break;
+        case "28":
+            Programm027028();
+            break;
         default:
             Console.WriteLine("Такой задачи не существует, попробуйте еще раз");
             break;
     }
 }
 
+string[] Start(string[] inputStr, string[] newArr)
+{
+    Console.WriteLine(inputStr[1]);
+    System.Threading.Thread.Sleep(2000);
+    switch (newArr[0])
+    {
+        case "Random":
+            int minVal = Int32.TryParse(newArr[1], out int outnumber1) ? Convert.ToInt32(outnumber1) : default;
+            int maxVal = Int32.TryParse(newArr[2], out int outnumber2) ? Convert.ToInt32(outnumber2) : default;
+            Random rand = new Random();
+            int countNewArr = Int32.TryParse(newArr[3], out int outnumber3) ? Convert.ToInt32(outnumber3) : default;
+            newArr = new string[countNewArr];
+            for (int i = 0; i < inputStr.Length - 1; i++) newArr[i] = Convert.ToString(rand.Next(minVal, maxVal));
+            break;
+        case "String":
+            newArr = InputData(inputStr, 0);
+            break;
+        case "Double":
+            newArr = InputData(inputStr, 1);
+            break;
+        case "Int32":
+            newArr = InputData(inputStr, 2);
+            break;
+        case "Int64":
+            newArr = InputData(inputStr, 3);
+            break;
+        default:
+            Console.WriteLine("Error, check input data");
+            break;
+    }
+    return newArr;
+}
+
+
 // Метод ввода данных в вычисляемый массив (проверяет на правильность ввода данных)
 string[] InputData(string[] firstarr, int tool)
 {
     string[] secondarr = new string[firstarr.Length];
+    for (int inputI = 1; inputI < firstarr.Length; inputI++)
+    {
+        string inputdata = String.Empty;
+        bool conduction = false;
+        do
+        {
+            Console.WriteLine(firstarr[inputI]);
+            inputdata = Console.ReadLine()!;
+            switch (tool)
+            {
+                case 0:
+                    conduction = String.IsNullOrEmpty(inputdata);
+                    break;
+                case 1:
+                    conduction = !(Double.TryParse(inputdata, out double outnumber) ^ String.IsNullOrEmpty(inputdata));
+                    break;
+                case 2:
+                    conduction = !(Int32.TryParse(inputdata, out int outnumber2) ^ String.IsNullOrEmpty(inputdata));
+                    break;
+                case 3:
+                    conduction = !(Int64.TryParse(inputdata, out long outnumber3) ^ String.IsNullOrEmpty(inputdata));
+                    break;
+                case 4:
+                    conduction = !((Int32.TryParse(inputdata, out int outnumber4) && 10000 <= outnumber4 && outnumber4 < 100000) ^ String.IsNullOrEmpty(inputdata));
+                    break;
+            }
+        } while (conduction);
+        secondarr[inputI] = inputdata;
+    }
+    return secondarr;
+}
+
+string[] InputData2(string[] firstarr)
+{
+    string[] secondarr = new string[firstarr.Length];
+    tool = true;
+    string inputdata = Console.ReadLine()!;
+
+    if (Double.TryParse(inputdata, out double outnumber))
+    {
+        outnumber = Convert.ToInt64(outnumber);
+        conduction = false;
+    }
+
     for (int inputI = 0; inputI < firstarr.Length; inputI++)
     {
         string inputdata = String.Empty;
@@ -199,6 +286,22 @@ double[] ToDoubleArray(string[] remakearray)
     return newarr;
 }
 
+int[] ToIntArrayFromString(string inputStr)
+{
+    int leng = inputStr.Length;
+    int[] outputArr;
+    if (inputStr[0] == '-')
+    {
+        outputArr = new int[leng - 1];
+        for (int i = 1; i < leng; i++) outputArr[i - 1] = int.Parse(inputStr[i].ToString());
+    }
+    else
+    {
+        outputArr = new int[leng];
+        for (int i = 0; i < leng; i++) outputArr[i] = int.Parse(inputStr[i].ToString());
+    }
+    return outputArr;
+}
 // double[] CreateArrayDouble(string[] array1)
 // {
 //     double[] array2 = { -1 };
@@ -207,14 +310,13 @@ double[] ToDoubleArray(string[] remakearray)
 //     return array2;
 // }
 
-double[] CreateArrayDoubleRange(string minCount, string maxCount)
+void CreateArrayDoubleRange(double[] doubleArray, string minCount, string maxCount)
 {
     int minCAI = Convert.ToInt32(minCount);
     int maxCAI = Convert.ToInt32(maxCount);
-    int maxCountIndex = maxCAI - minCAI + 1;
-    double[] newArrayCAI = new double[maxCountIndex];
-    for (int iCAI = 0; iCAI < maxCountIndex; iCAI++) newArrayCAI[iCAI] += minCAI++;
-    return newArrayCAI;
+    int CountIndex = (maxCAI - minCAI) / (doubleArray.Length - 1);
+    doubleArray[0] = minCAI;
+    for (int iCAI = 1; iCAI < doubleArray.Length; iCAI++) doubleArray[iCAI] += CountIndex;
 }
 
 string CreateStringAsArray(double[] doubleArr)
@@ -276,6 +378,7 @@ void Programm018()
     System.Threading.Thread.Sleep(2000);
     string[] text18 = { "Введите первое условие", "Введите второе условие" };
     string[] arr18 = InputData(text18, 0);
+
     bool bone = ToBoolean(arr18, 0);
     bool btwo = ToBoolean(arr18, 1);
     if ((!(bone || btwo)) == (!bone && !btwo)) Console.WriteLine($"Выражение (!( x || y)) истинно к (!x && !y)");
@@ -289,6 +392,7 @@ void Programm019()
     string[] text19 = { "Введите координаты x", "Введите координаты y" };
     string[] arr19 = InputData(text19, 1);
     string[] workarr19 = { "0" };
+
     bool checkX = CheckConditionForNumb(workarr19[0], arr19[0], 1);
     bool checkY = CheckConditionForNumb(workarr19[0], arr19[1], 1);
     Console.WriteLine($"{checkX} {checkY}");
@@ -326,6 +430,7 @@ void Programm020()
     System.Threading.Thread.Sleep(2000);
     string[] text20 = { "Number of quarter" };
     string[] arr20 = InputData(text20, 1);
+
     string[] instruction20 = { "1 quater", "2 quater", "3 quater", "4 quater" };
     string[] result20 = { "x = (0, +infinity), y = (0, +infinity)", "x = (-infinity, 0), y = (0, +infinity)", "x = (-infinity, 0), y = (-infinity, 0)", "x = (0, +infinity), y = (-infinity, 0)" };
     switch (arr20[0])
@@ -352,7 +457,8 @@ void Programm021()
     Console.WriteLine("Задание: Проверить пятизначное число на палидром");
     System.Threading.Thread.Sleep(2000);
     string[] text21 = { "Palindrome" };
-    string[] arr21 = InputData(text21, 3);
+    string[] arr21 = InputData(text21, 4);
+
     string newstring21 = Reverse(arr21[0]);
     if (CheckConditionForNumb(arr21[0], newstring21, 4)) WriteResult(arr21[0], text21[0], 0);
     else { WriteResult(arr21[0], text21[0], 1); }
@@ -365,6 +471,7 @@ void Programm022()
     string[] text22 = { "X.1", "Y.1", "Z.1", "X.2", "Y.2", "Z.2" };
     string resulttext22 = "Distanse of two dots";
     string[] arr22 = InputData(text22, 1);
+
     double[] changearr22 = ToDoubleArray(arr22);
     int i22 = 0;
     // result = корень из (x1-x2)^2 + (y1-y2)^2
@@ -378,8 +485,12 @@ void Programm023()
     System.Threading.Thread.Sleep(2000);
     string[] text23 = { "N number" };
     string[] arr23 = InputData(text23, 2);
+
     int i23 = 0;
-    double[] newArr23 = CreateArrayDoubleRange("1", arr23[i23]);
+    string start23 = "1";
+    int maxcount23 = Convert.ToInt32(arr23[i23]) - Convert.ToInt32(start23);
+    double[] newArr23 = new double[maxcount23];
+    CreateArrayDoubleRange(newArr23, start23, arr23[i23]);
     double[] arrResult23 = new double[newArr23.Length];
     for (i23 = 0; i23 < arrResult23.Length; i23++)
     {
@@ -395,8 +506,12 @@ void Programm024()
     System.Threading.Thread.Sleep(2000);
     string[] text24 = { "N number" };
     string[] arr24 = InputData(text24, 2);
+
     int i24 = 0;
-    double[] newArr24 = CreateArrayDoubleRange("1", arr24[i24]);
+    string start24 = "1";
+    int maxcount24 = Convert.ToInt32(arr24[i24]) - Convert.ToInt32(start24);
+    double[] newArr24 = new double[maxcount24];
+    CreateArrayDoubleRange(newArr24, start24, arr24[i24]);
     double[] arrResult24 = new double[newArr24.Length];
     for (i24 = 0; i24 < arrResult24.Length; i24++) arrResult24[i24] = Math.Pow(newArr24[i24], 3);
     task24 = $"Найти кубы чисел от 1 до {arr24[0]}";
@@ -410,20 +525,88 @@ void Programm025()
     System.Threading.Thread.Sleep(2000);
     string[] text25 = { "A number" };
     string[] arr25 = InputData(text25, 2);
+
     int i25 = 0;
-    double[] newArr25 = CreateArrayDoubleRange("1", arr25[i25]);
+    string start25 = "1";
+    int maxcount25 = Convert.ToInt32(arr25[i25]) - Convert.ToInt32(start25);
+    double[] newArr25 = new double[maxcount25];
+    CreateArrayDoubleRange(newArr25, start25, arr25[i25]);
     double summ = 0;
     for (; i25 < newArr25.Length; i25++) summ += newArr25[i25];
     task25 = $"Найти сумму чисел от 1 до {arr25[0]}";
     WriteResult(task25, Convert.ToString(summ), 0);
 }
 
+void Programm026()
+{
+    string task26 = "Возведите число А в натуральную степень B, используя цикл";
+    Console.WriteLine(task26);
+    System.Threading.Thread.Sleep(2000);
+    string[] text26 = { "A number", "B number" };
+    string[] arr26 = InputData(text26, 2);
+
+    int i26 = 0;
+    int maxcount26 = Convert.ToInt32(arr26[i26 + 1]);
+    double[] newArr26 = new double[maxcount26];
+    CreateArrayDoubleRange(newArr26, arr26[i26], arr26[i26]);
+    double multiplication26 = 1;
+    for (i26 = 0; i26 < newArr26.Length; i26++) multiplication26 *= newArr26[i26];
+    WriteResult($"{arr26[0]} in {arr26[1]}", Convert.ToString(multiplication26), 0);
+}
+
+void Programm027028()
+{
+    // Перевод числа из строки в символы, а затем в цифры
+    // сумма всех чисел и печать
+
+    Console.WriteLine("Определить количество цифр в цифре и посчитать сумму цифр в цифре");
+    System.Threading.Thread.Sleep(2000);
+    string[] text27 = { "Number" };
+    string[] arr27 = InputData(text27, 2);
+
+    int summ = 0;
+    int[] numb27 = ToIntArrayFromString(arr27[0]);
+    foreach (int n in numb27) summ += n;
+    WriteResult("count numb", $"{numb27.Length}", 0);
+    WriteResult("summ numb", $"{summ}", 0);
+}
+
+void Programm029()
+{
+    Console.WriteLine("Написать программу вычисления чисел от 1 до N");
+    System.Threading.Thread.Sleep(2000);
+    string[] text29 = { "Number" };
+    string[] arr29 = InputData(text29, 2);
+    string start29 = "1";
+
+
+
+}
+
+void Programm030()
+{
+    Console.WriteLine("Показать кубы чисел, заканчивающихся на четную цифру");
+    double[] arr30 = new double[10];
+    Random rand = new Random();
+    foreach (int numb in arr30)
+        for (int i = 0; i < arr30.Length; i++) if (arr30[i] % 2 == 0) Console.WriteLine(Math.Pow(arr30[i], 3));
+}
+
+void Programm035()
+{
+    string[] text35 = { "Определить присутствует ли в заданном массиве некоторое число", "Number" };
+    string[] conduction35 = { "Int64" };
+    string[] newArr35 = Start(text35, conduction35);
+}
+
 // Main
 // Console.WriteLine("Введите свое имя");
 // var name = Console.ReadLine()!;
 // Console.Clear();
+// int sleep1 = 1000;
 // System.Threading.Thread.Sleep(1000);
 // Console.WriteLine($"Приветствую тебя, {name}");
 // System.Threading.Thread.Sleep(2000);
 Enterprogram();
+
 
