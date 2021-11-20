@@ -1,4 +1,4 @@
-﻿/* Cтруктура программы
+﻿/* Алгоритм программы
 Приветствие
 Ввод команды
     Ввод числа
@@ -7,9 +7,30 @@
     Ввод символа
         Помощь
         Выход
+        Изменение входных парметров программы
         Ошибка если нет символов
+Печать результата
+*/
+
+/* Структура программы
+Приветствие
+Ввод команды
+    Ввод числа
+    Ввод символа
+        Помощь
+        Выход
+        Изменение входных парметров выбранной минипрограммы
+        Ошибка если нет символов
+Запуск программы
+    Номер программы
+Метод Введение данных
+Метод Начального запуска программы
+Метод Рандомного числа
+Метод Печати массива
+Методы перевода string в int, double
 Печать полученного решения на экран
 */
+
 
 // Метод ввода номера программы
 void Enterprogram()
@@ -21,7 +42,7 @@ void Enterprogram()
     while (exit == false)
     {
         string[] command = { "Введите команду" };
-        string[] commresult = InputData(command, 0);
+        string[] commresult = InputData(command, "String");
         bool check = int.TryParse(commresult[0], out int number);
 
         switch (check)
@@ -105,42 +126,76 @@ void ChooseProgramm(string task)
     }
 }
 
-string[] Start(string[] inputStr, string[] newArr)
+/*
+Данные даны и вводить ничего не нужно
+Данные нужно задавать через консоль и они будут применяться к методам
+Данные вводятся вручную
+Данные будут импортироваться из файла
+
+*/
+/* Метод выбора массива, Какие данные введены, Ввод необходимых параметров, последний элемент: начальное приветствие
+string[] settings = {"Приветствие", "Random", "Int32"};
+string[] newArr = {"Введите минимальные значения", "Введите максимальные значения", "Введите количество"};
+string[] settings = {"Приветствие", "Random", "Int32"};
+string[] newArr = {"10", "15", "10"};
+string[] settings = {"Приветствие", "Enter", "Int32"};
+string[] newArr = {"Первое число, второе число"};
+string[] settings = {"Приветствие", "Enter", "Int32"};
+string[] newArr = {"10", "15", "10", "15", "10"};
+string[] settings = {"Приветствие", "Import", "String"};
+string[] newArr = {"Введите путь"};
+string[] settings = {"Приветствие", "Import", "String"};
+string[] newArr = {"E\"};
+
+*/
+void Start(string[] inputSet, string[] newArr)
 {
-    Console.WriteLine(inputStr[1]);
+    Console.WriteLine(inputSet[0]);
     System.Threading.Thread.Sleep(2000);
-    switch (newArr[0])
+    int lengSet = inputSet.Length;
+    int lengNew = newArr.Length;
+    bool inputresult = Double.TryParse(newArr[0], out double outnumb);
+    switch (inputSet[1])
     {
         case "Random":
-            int minVal = Int32.TryParse(newArr[1], out int outnumber1) ? Convert.ToInt32(outnumber1) : default;
-            int maxVal = Int32.TryParse(newArr[2], out int outnumber2) ? Convert.ToInt32(outnumber2) : default;
-            Random rand = new Random();
-            int countNewArr = Int32.TryParse(newArr[3], out int outnumber3) ? Convert.ToInt32(outnumber3) : default;
-            newArr = new string[countNewArr];
-            for (int i = 0; i < inputStr.Length - 1; i++) newArr[i] = Convert.ToString(rand.Next(minVal, maxVal));
+            if (!inputresult) newArr = InputData(newArr, inputSet[2]);
+            newArr = Random(newArr[0], newArr[1], newArr[2]);
             break;
-        case "String":
-            newArr = InputData(inputStr, 0);
+        case "Enter":
+            newArr = InputData(newArr, inputSet[2]);
             break;
-        case "Double":
-            newArr = InputData(inputStr, 1);
+        case "Default":
             break;
-        case "Int32":
-            newArr = InputData(inputStr, 2);
-            break;
-        case "Int64":
-            newArr = InputData(inputStr, 3);
+        case "Import":
+            if (!(newArr[0][1] == 92)) newArr = InputData(newArr, inputSet[2]);
+            GetImportData(newArr[0]);
             break;
         default:
-            Console.WriteLine("Error, check input data");
+            Console.WriteLine("Error, check kind of method input: Random, Enter, Default, Import");
             break;
     }
+}
+
+string[] Random(string startValue, string endValue, string count)
+{
+    int minVal = Int32.TryParse(startValue, out int outnumber1) ? Convert.ToInt32(outnumber1) : -1;
+    int maxVal = Int32.TryParse(endValue, out int outnumber2) ? Convert.ToInt32(outnumber2) : -1;
+    Random rand = new Random();
+    int countNewArr = Int32.TryParse(count, out int outnumber3) ? Convert.ToInt32(outnumber3) : 1;
+    string[] newArr = new string[countNewArr];
+    for (int i = 0; i < countNewArr - 1; i++) newArr[i] = Convert.ToString(rand.Next(minVal, maxVal));
     return newArr;
+}
+
+string[] GetImportData(string place)
+{
+    string[] input = System.IO.File.ReadAllLines(place);
+    return input;
 }
 
 
 // Метод ввода данных в вычисляемый массив (проверяет на правильность ввода данных)
-string[] InputData(string[] firstarr, int tool)
+string[] InputData(string[] firstarr, string tool)
 {
     string[] secondarr = new string[firstarr.Length];
     for (int inputI = 1; inputI < firstarr.Length; inputI++)
@@ -153,19 +208,19 @@ string[] InputData(string[] firstarr, int tool)
             inputdata = Console.ReadLine()!;
             switch (tool)
             {
-                case 0:
+                case "String":
                     conduction = String.IsNullOrEmpty(inputdata);
                     break;
-                case 1:
+                case "Double":
                     conduction = !(Double.TryParse(inputdata, out double outnumber) ^ String.IsNullOrEmpty(inputdata));
                     break;
-                case 2:
+                case "Int32":
                     conduction = !(Int32.TryParse(inputdata, out int outnumber2) ^ String.IsNullOrEmpty(inputdata));
                     break;
-                case 3:
+                case "Int64":
                     conduction = !(Int64.TryParse(inputdata, out long outnumber3) ^ String.IsNullOrEmpty(inputdata));
                     break;
-                case 4:
+                case "Int32, 1000<x<10000":
                     conduction = !((Int32.TryParse(inputdata, out int outnumber4) && 10000 <= outnumber4 && outnumber4 < 100000) ^ String.IsNullOrEmpty(inputdata));
                     break;
             }
@@ -324,7 +379,7 @@ void PrintArrayIntoConsole(string[] printarr, int printset)
 void Programm000()
 {
     string[] text0 = { "Введите первое число", "Введите второе число" };
-    string[] arr0 = InputData(text0, 0);
+    string[] arr0 = InputData(text0, "String");
     PrintArrayIntoConsole(arr0, 0);
     int j0 = 0;
     if (CheckConditionForNumb(arr0[j0], arr0[j0 + 1], 1)) Console.WriteLine($"Число {arr0[0]} меньше числа {arr0[1]}");
@@ -336,7 +391,7 @@ void Programm018()
     Console.WriteLine("Задание: Проверить истинность утверждения ¬(X ⋁ Y) = ¬X ⋀ ¬Y");
     System.Threading.Thread.Sleep(2000);
     string[] text18 = { "Введите первое условие", "Введите второе условие" };
-    string[] arr18 = InputData(text18, 0);
+    string[] arr18 = InputData(text18, "String");
 
     bool bone = ToBoolean(arr18, 0);
     bool btwo = ToBoolean(arr18, 1);
@@ -349,7 +404,7 @@ void Programm019()
     Console.WriteLine("Задание: Определить номер четверти плоскости, в которой находится точка с координатами Х и У, причем X ≠ 0 и Y ≠ 0");
     System.Threading.Thread.Sleep(2000);
     string[] text19 = { "Введите координаты x", "Введите координаты y" };
-    string[] arr19 = InputData(text19, 1);
+    string[] arr19 = InputData(text19, "Double");
     string[] workarr19 = { "0" };
 
     bool checkX = CheckConditionForNumb(workarr19[0], arr19[0], 1);
@@ -388,7 +443,7 @@ void Programm020()
     Console.WriteLine("Задание: Ввести номер четверти, показать диапазоны для возможных координат");
     System.Threading.Thread.Sleep(2000);
     string[] text20 = { "Number of quarter" };
-    string[] arr20 = InputData(text20, 1);
+    string[] arr20 = InputData(text20, "Double");
 
     string[] instruction20 = { "1 quater", "2 quater", "3 quater", "4 quater" };
     string[] result20 = { "x = (0, +infinity), y = (0, +infinity)", "x = (-infinity, 0), y = (0, +infinity)", "x = (-infinity, 0), y = (-infinity, 0)", "x = (0, +infinity), y = (-infinity, 0)" };
@@ -416,7 +471,7 @@ void Programm021()
     Console.WriteLine("Задание: Проверить пятизначное число на палидром");
     System.Threading.Thread.Sleep(2000);
     string[] text21 = { "Palindrome" };
-    string[] arr21 = InputData(text21, 4);
+    string[] arr21 = InputData(text21, "Int32, 1000<x<10000");
 
     string newstring21 = Reverse(arr21[0]);
     if (CheckConditionForNumb(arr21[0], newstring21, 4)) WriteResult(arr21[0], text21[0], 0);
@@ -429,7 +484,7 @@ void Programm022()
     System.Threading.Thread.Sleep(2000);
     string[] text22 = { "X.1", "Y.1", "Z.1", "X.2", "Y.2", "Z.2" };
     string resulttext22 = "Distanse of two dots";
-    string[] arr22 = InputData(text22, 1);
+    string[] arr22 = InputData(text22, "Double");
 
     double[] changearr22 = ToDoubleArray(arr22);
     int i22 = 0;
@@ -443,7 +498,7 @@ void Programm023()
     Console.WriteLine("Показать таблицу квадратов чисел от 1 до N");
     System.Threading.Thread.Sleep(2000);
     string[] text23 = { "N number" };
-    string[] arr23 = InputData(text23, 2);
+    string[] arr23 = InputData(text23, "Int32");
 
     int i23 = 0;
     string start23 = "1";
@@ -464,7 +519,7 @@ void Programm024()
     Console.WriteLine(task24);
     System.Threading.Thread.Sleep(2000);
     string[] text24 = { "N number" };
-    string[] arr24 = InputData(text24, 2);
+    string[] arr24 = InputData(text24, "Int32");
 
     int i24 = 0;
     string start24 = "1";
@@ -483,7 +538,7 @@ void Programm025()
     Console.WriteLine(task25);
     System.Threading.Thread.Sleep(2000);
     string[] text25 = { "A number" };
-    string[] arr25 = InputData(text25, 2);
+    string[] arr25 = InputData(text25, "Int32");
 
     int i25 = 0;
     string start25 = "1";
@@ -502,7 +557,7 @@ void Programm026()
     Console.WriteLine(task26);
     System.Threading.Thread.Sleep(2000);
     string[] text26 = { "A number", "B number" };
-    string[] arr26 = InputData(text26, 2);
+    string[] arr26 = InputData(text26, "Int32");
 
     int i26 = 0;
     int maxcount26 = Convert.ToInt32(arr26[i26 + 1]);
@@ -521,7 +576,7 @@ void Programm027028()
     Console.WriteLine("Определить количество цифр в цифре и посчитать сумму цифр в цифре");
     System.Threading.Thread.Sleep(2000);
     string[] text27 = { "Number" };
-    string[] arr27 = InputData(text27, 2);
+    string[] arr27 = InputData(text27, "Int32");
 
     int summ = 0;
     int[] numb27 = ToIntArrayFromString(arr27[0]);
@@ -535,7 +590,7 @@ void Programm029()
     Console.WriteLine("Написать программу вычисления чисел от 1 до N");
     System.Threading.Thread.Sleep(2000);
     string[] text29 = { "Number" };
-    string[] arr29 = InputData(text29, 2);
+    string[] arr29 = InputData(text29, "Int32");
     string start29 = "1";
 
 
@@ -553,10 +608,20 @@ void Programm030()
 
 void Programm035()
 {
-    string[] text35 = { "Определить присутствует ли в заданном массиве некоторое число", "Number" };
-    string[] conduction35 = { "Int64" };
-    string[] newArr35 = Start(text35, conduction35);
+    // Default tool: 1. Данные задаем сами или случайно, Данные даны или их нужно вводить
+    string[] start35 = { "Определить присутствует ли в заданном массиве некоторое число", "Random", "Int32"};
+    string[] newArr35 = {"Find Number"};
+    Start(start35, newArr35);
+    string find35 = newArr35[0];
+    string result = "Not found";
+    for (int i = 0; i < newArr35.Length; i++) if (newArr35[i] == find35) result = "Присутствует, его номер ";
+    // Для работы с заданным массивом необходимо: определить что это будет за массив -> Сами вводить, он будет создан нами или он будет откуда-то импортироваться
+    // Random - справшивает мы вводим сами данные для массива или используем стандартые, создаем массив
+    // 
+
 }
+
+
 
 // Main
 // Console.WriteLine("Введите свое имя");
