@@ -39,10 +39,11 @@ void Enterprogram()
     Console.WriteLine();
     System.Threading.Thread.Sleep(1000);
     bool exit = false;
+
     while (exit == false)
     {
         string[] command = { "Введите команду" };
-        string[] commresult = InputData(command, "String");
+        string[] commresult = InputData(command, "STRING");
         bool check = int.TryParse(commresult[0], out int number);
 
         switch (check)
@@ -56,7 +57,6 @@ void Enterprogram()
                 System.Threading.Thread.Sleep(400);
                 Console.Write(".");
                 Console.WriteLine();
-                Console.Clear();
                 ChooseProgramm(commresult[0]);
                 Console.WriteLine();
                 System.Threading.Thread.Sleep(500);
@@ -64,10 +64,10 @@ void Enterprogram()
             case false:
                 switch (commresult[0])
                 {
-                    case "q":
+                    case "Q":
                         exit = true;
                         break;
-                    case "h":
+                    case "H":
                         Console.WriteLine("Чтобы включить программу введите ее номер и нажмите Enter. Например: Для программы под номером 20, введите '20'");
                         break;
                     default:
@@ -148,27 +148,28 @@ string[] settings = {"Приветствие", "Import", "String"};
 string[] newArr = {"E\"};
 
 */
-void Start(string[] inputSet, string[] newArr)
+void Start(string[] inputSet, string[] inputArr)
 {
+    Console.Clear();
     Console.WriteLine(inputSet[0]);
     System.Threading.Thread.Sleep(2000);
     int lengSet = inputSet.Length;
-    int lengNew = newArr.Length;
-    bool inputresult = Double.TryParse(newArr[0], out double outnumb);
+    int lengNew = inputArr.Length;
+    bool inputresult = Double.TryParse(inputArr[0], out double outnumb);
     switch (inputSet[1])
     {
-        case "Random":
-            if (!inputresult) newArr = InputData(newArr, inputSet[2]);
-            newArr = Random(newArr[0], newArr[1], newArr[2]);
+        case "RANDOM":
+            if (!inputresult) InputData(inputArr, inputSet[2]);
+            Random(inputArr);
             break;
-        case "Enter":
-            newArr = InputData(newArr, inputSet[2]);
+        case "ENTER":
+            InputData(inputArr, inputSet[2]);
             break;
-        case "Default":
+        case "IMPORT":
+            // записать метод по поиску символа ":" if (!(inputArr[0][1] == 92)) InputData(inputArr, inputSet[2]);
+            GetImportData(inputArr[0]);
             break;
-        case "Import":
-            if (!(newArr[0][1] == 92)) newArr = InputData(newArr, inputSet[2]);
-            GetImportData(newArr[0]);
+        case "DEFAULT":
             break;
         default:
             Console.WriteLine("Error, check kind of method input: Random, Enter, Default, Import");
@@ -176,15 +177,52 @@ void Start(string[] inputSet, string[] newArr)
     }
 }
 
-string[] Random(string startValue, string endValue, string count)
+string[] Random(string[] inputArr)
 {
-    int minVal = Int32.TryParse(startValue, out int outnumber1) ? Convert.ToInt32(outnumber1) : -1;
-    int maxVal = Int32.TryParse(endValue, out int outnumber2) ? Convert.ToInt32(outnumber2) : -1;
-    Random rand = new Random();
-    int countNewArr = Int32.TryParse(count, out int outnumber3) ? Convert.ToInt32(outnumber3) : 1;
+    int minVal = Int32.TryParse(inputArr[0], out int outnumber1) ? Convert.ToInt32(outnumber1) : -1;
+    int maxVal = Int32.TryParse(inputArr[1], out int outnumber2) ? Convert.ToInt32(outnumber2) : -1;
+    if (maxVal == 0 || maxVal == minVal) maxVal = minVal + 1;
+    int countNewArr = Int32.TryParse(inputArr[2], out int outnumber3) ? Convert.ToInt32(outnumber3) : 1;
     string[] newArr = new string[countNewArr];
-    for (int i = 0; i < countNewArr - 1; i++) newArr[i] = Convert.ToString(rand.Next(minVal, maxVal));
+    Random rand = new Random();
+    for (int i = 0; i < countNewArr; i++) newArr[i] = Convert.ToString(rand.Next(minVal, maxVal));
     return newArr;
+}
+
+void RandomLong(string[] inputArr)
+{
+    int countMinNumbValue = GetIntergerNumericalPosition(inputArr[0]);
+    int countMaxNumbValue = GetIntergerNumericalPosition(inputArr[1]);
+    double minValue = Convert.ToDouble(inputArr[0]);
+    double maxValue = Convert.ToDouble(inputArr[1]);
+    double range = maxValue - minValue != 0 ? maxValue - minValue : maxValue;
+    int countNewArr = Int32.TryParse(inputArr[2], out int outnumber3) ? Convert.ToInt32(outnumber3) : 1;
+    string[] newArr = new string[countNewArr];
+    Random rand = new Random();
+    double numb = 0;
+    for (int i = 0; i < countNewArr; i++)
+    {
+        numb = (-1) * Math.Round(rand.NextDouble() - 1, countMaxNumbValue);
+        numb *= range;
+        numb += minValue;
+        inputArr[i] = Convert.ToString(Math.Round(numb));
+    }
+}
+
+int GetIntergerNumericalPosition(string numb)
+{
+    int position = numb.Length;
+    position = FindSymbol(numb, '.', out int posit1) ? position = posit1 - 1 : position;
+    position = FindSymbol(numb, '-', out int posit2) ? position = position - 1 : position;
+    return position;
+}
+
+bool FindSymbol(string inputNumb, char needSymbol, out int position)
+{
+    bool boolPosition = false;
+    position = -1;
+    for (int i = 0; i < inputNumb.Length; i++) if (inputNumb[i] == needSymbol) { boolPosition = true; position = i; break; }
+    return boolPosition;
 }
 
 string[] GetImportData(string place)
@@ -193,41 +231,47 @@ string[] GetImportData(string place)
     return input;
 }
 
-
 // Метод ввода данных в вычисляемый массив (проверяет на правильность ввода данных)
-string[] InputData(string[] firstarr, string tool)
+void InputData(string[] inputArr, string tool)
 {
-    string[] secondarr = new string[firstarr.Length];
-    for (int inputI = 1; inputI < firstarr.Length; inputI++)
+    string toolUpper = tool.ToUpper();
+    string inputdata = String.Empty;
+    for (int inputI = 0; inputI < inputArr.Length; inputI++)
     {
-        string inputdata = String.Empty;
         bool conduction = false;
         do
         {
-            Console.WriteLine(firstarr[inputI]);
+            Console.WriteLine(inputArr[inputI]);
             inputdata = Console.ReadLine()!;
-            switch (tool)
+            switch (toolUpper)
             {
-                case "String":
+                case "STRING":
                     conduction = String.IsNullOrEmpty(inputdata);
                     break;
-                case "Double":
+                case "DOUBLE":
                     conduction = !(Double.TryParse(inputdata, out double outnumber) ^ String.IsNullOrEmpty(inputdata));
                     break;
-                case "Int32":
+                case "INT32":
                     conduction = !(Int32.TryParse(inputdata, out int outnumber2) ^ String.IsNullOrEmpty(inputdata));
                     break;
-                case "Int64":
+                case "INT64":
                     conduction = !(Int64.TryParse(inputdata, out long outnumber3) ^ String.IsNullOrEmpty(inputdata));
                     break;
-                case "Int32, 1000<x<10000":
+                case "INT32, 1000<X<10000":
                     conduction = !((Int32.TryParse(inputdata, out int outnumber4) && 10000 <= outnumber4 && outnumber4 < 100000) ^ String.IsNullOrEmpty(inputdata));
+                    break;
+                case "PLACE":
+                    conduction = !((inputArr[0][1] == 92) && (inputArr[0][inputArr[0].Length] == '.') ^ String.IsNullOrEmpty(inputdata));
+                    inputdata = "@" + $"{inputdata}";
+                    break;
+                default:
+                    Console.WriteLine("Uncorrect indefy format, please enter correct format of input values");
+                    conduction = false;
                     break;
             }
         } while (conduction);
-        secondarr[inputI] = inputdata;
+        inputArr[inputI] = inputdata;
     }
-    return secondarr;
 }
 
 bool CheckConditionForNumb(string c1, string c2, int Ncompare)
@@ -378,12 +422,40 @@ void PrintArrayIntoConsole(string[] printarr, int printset)
 
 void Programm000()
 {
-    string[] text0 = { "Введите первое число", "Введите второе число" };
-    string[] arr0 = InputData(text0, "String");
-    PrintArrayIntoConsole(arr0, 0);
-    int j0 = 0;
-    if (CheckConditionForNumb(arr0[j0], arr0[j0 + 1], 1)) Console.WriteLine($"Число {arr0[0]} меньше числа {arr0[1]}");
-    else { Console.WriteLine($"Число {arr0[0]} больше числа {arr0[1]}"); }
+    string[] settings = { "Тестовая проверка методов", "ENTER", "INT32" };
+    string[] Arr0 = { "Введите первое число", "Введите второе число" };
+    Start(settings, Arr0);
+    PrintArrayIntoConsole(Arr0, 0);
+    Console.ReadKey();
+    string[] settings1 = { "Тестовая проверка методов", "RANDOM", "INT32" };
+    string[] Arr1 = { "Введите минимальные значения", "Введите максимальные значения", "Введите количество" };
+    Start(settings, Arr1);
+    PrintArrayIntoConsole(Arr1, 0);
+    Console.ReadKey();
+    string[] settings2 = { "Приветствие", "RANDOM", "INT32" };
+    string[] Arr2 = { "10", "15", "10" };
+    Start(settings, Arr2);
+    PrintArrayIntoConsole(Arr2, 0);
+    Console.ReadKey();
+    string[] settings3 = { "Приветствие", "DEFAULT", "INT32" };
+    string[] Arr3 = { "10", "15", "10", "15", "10" };
+    Start(settings, Arr3);
+    PrintArrayIntoConsole(Arr3, 0);
+    Console.ReadKey();
+    string[] settings4 = { "Приветствие", "IMPORT", "PLACE" };
+    string[] Arr4 = { "Введите путь" };
+    Start(settings, Arr4);
+    PrintArrayIntoConsole(Arr4, 0);
+    Console.ReadKey();
+    string[] settings5 = { "Приветствие", "IMPORT", "PLACE" };
+    string[] Arr5 = { @"C:\Users\ovcse\Desktop\РАЗРАБОТЧИК\СЕМИНАРЫ\in CS\Lesson4\17.txt" };
+    Start(settings, Arr5);
+    Console.WriteLine(Arr5[0][0] + Arr5[0][1] + Arr5[0][2]);
+    Console.ReadKey();
+
+    // int j0 = 0;
+    // if (CheckConditionForNumb(arr0[j0], arr0[j0 + 1], 1)) Console.WriteLine($"Число {arr0[0]} меньше числа {arr0[1]}");
+    // else { Console.WriteLine($"Число {arr0[0]} больше числа {arr0[1]}"); }
 }
 
 void Programm018()
@@ -609,8 +681,8 @@ void Programm030()
 void Programm035()
 {
     // Default tool: 1. Данные задаем сами или случайно, Данные даны или их нужно вводить
-    string[] start35 = { "Определить присутствует ли в заданном массиве некоторое число", "Random", "Int32"};
-    string[] newArr35 = {"Find Number"};
+    string[] start35 = { "Определить присутствует ли в заданном массиве некоторое число", "Random", "Int32" };
+    string[] newArr35 = { "Find Number" };
     Start(start35, newArr35);
     string find35 = newArr35[0];
     string result = "Not found";
