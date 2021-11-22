@@ -46,7 +46,7 @@ void Enterprogram()
         string[] command = { "Введите команду" };
         InputData(command, "string");
         bool check = int.TryParse(command[0], out int number);
-        if (check == false) { comm = command[0]; comm.ToUpper(); }
+        if (check == false) comm = command[0].ToUpper();
         switch (check)
         {
             case true:
@@ -58,9 +58,13 @@ void Enterprogram()
                 System.Threading.Thread.Sleep(400);
                 Console.Write(".");
                 Console.WriteLine();
-                ChooseProgramm(command[0]);
-                Console.WriteLine();
-                System.Threading.Thread.Sleep(500);
+                do 
+                {
+                    System.Threading.Thread.Sleep(500);
+                    ChooseProgramm(command[0]);
+                    Console.WriteLine();
+                    Console.WriteLine("Запустить заново? Y/N");
+                } while (Console.ReadKey(true).Key != ConsoleKey.N);
                 break;
             case false:
                 switch (comm)
@@ -238,17 +242,21 @@ string[] GetImportData(string place)
 void InputData(string[] inputArr, string tool)
 {
     string[] toolArr = MakeStringToStringArray(tool, ',');
+    int countOrder = int.MaxValue;
+    if (toolArr.Length > 1) { countOrder = int.TryParse(toolArr[toolArr.Length - 1], out int inputCount) ? inputCount : countOrder; }
     string toolUpper = toolArr[0].ToUpper();
-    int countOrder = int.TryParse(toolArr[1], out int inputCount) ? inputCount : int.MaxValue;
     string inputdata = String.Empty;
     for (int inputI = 0; inputI < inputArr.Length; inputI++)
     {
         bool conduction = false;
         do
         {
-            Console.WriteLine(inputArr[inputI]);
-            do inputdata = Console.ReadLine()!;
-            while(!(String.IsNullOrEmpty(inputdata) ^ GetIntergerNumericalPosition(inputdata) <= countOrder));
+            do 
+            {
+                Console.WriteLine(inputArr[inputI]);
+                inputdata = Console.ReadLine()!;
+            }
+            while (!(String.IsNullOrEmpty(inputdata) ^ GetIntergerNumericalPosition(inputdata) <= countOrder));
 
             switch (toolUpper)
             {
@@ -406,14 +414,14 @@ string[] MakeStringToStringArray(string separateArr, char separateChar)
     for (int iSA = 0, jSA = 0; iSA < separateArr.Length; iSA++)
     {
         if (separateArr[iSA] == separateChar)
-        { 
+        {
             Array.Resize(ref newSA, countArr + 1);
             newSA[jSA++] = result;
             result = string.Empty;
         }
         else result += $"{separateArr[iSA]}";
     }
-    newSA[newSA.Length] = result;
+    newSA[newSA.Length - 1] = result;
     return newSA;
 }
 
