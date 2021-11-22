@@ -42,8 +42,8 @@ void Enterprogram()
 
     while (exit == false)
     {
-        string[] command = { "Введите команду" };
-        string[] commresult = InputData(command, "STRING");
+        string[] commresult = { "Введите команду" };
+        InputData(commresult, "string");
         bool check = int.TryParse(commresult[0], out int number);
 
         switch (check)
@@ -462,8 +462,8 @@ void Programm018()
 {
     Console.WriteLine("Задание: Проверить истинность утверждения ¬(X ⋁ Y) = ¬X ⋀ ¬Y");
     System.Threading.Thread.Sleep(2000);
-    string[] text18 = { "Введите первое условие", "Введите второе условие" };
-    string[] arr18 = InputData(text18, "String");
+    string[] arr18 = { "Введите первое условие", "Введите второе условие" };
+    InputData(arr18, "String");
 
     bool bone = ToBoolean(arr18, 0);
     bool btwo = ToBoolean(arr18, 1);
@@ -475,8 +475,8 @@ void Programm019()
 {
     Console.WriteLine("Задание: Определить номер четверти плоскости, в которой находится точка с координатами Х и У, причем X ≠ 0 и Y ≠ 0");
     System.Threading.Thread.Sleep(2000);
-    string[] text19 = { "Введите координаты x", "Введите координаты y" };
-    string[] arr19 = InputData(text19, "Double");
+    string[] arr19 = { "Введите координаты x", "Введите координаты y" };
+    InputData(arr19, "Double");
     string[] workarr19 = { "0" };
 
     bool checkX = CheckConditionForNumb(workarr19[0], arr19[0], 1);
@@ -514,8 +514,8 @@ void Programm020()
 {
     Console.WriteLine("Задание: Ввести номер четверти, показать диапазоны для возможных координат");
     System.Threading.Thread.Sleep(2000);
-    string[] text20 = { "Number of quarter" };
-    string[] arr20 = InputData(text20, "Double");
+    string[] arr20 = { "Number of quarter" };
+    InputData(arr20, "Double");
 
     string[] instruction20 = { "1 quater", "2 quater", "3 quater", "4 quater" };
     string[] result20 = { "x = (0, +infinity), y = (0, +infinity)", "x = (-infinity, 0), y = (0, +infinity)", "x = (-infinity, 0), y = (-infinity, 0)", "x = (0, +infinity), y = (-infinity, 0)" };
@@ -542,21 +542,21 @@ void Programm021()
 {
     Console.WriteLine("Задание: Проверить пятизначное число на палидром");
     System.Threading.Thread.Sleep(2000);
-    string[] text21 = { "Palindrome" };
-    string[] arr21 = InputData(text21, "Int32, 1000<x<10000");
+    string[] arr21 = { "Palindrome" };
+    InputData(arr21, "Int32, 1000<x<10000");
 
     string newstring21 = Reverse(arr21[0]);
-    if (CheckConditionForNumb(arr21[0], newstring21, 4)) WriteResult(arr21[0], text21[0], 0);
-    else { WriteResult(arr21[0], text21[0], 1); }
+    if (CheckConditionForNumb(arr21[0], newstring21, 4)) WriteResult(arr21[0], "Palindrome", 0);
+    else { WriteResult(arr21[0], "Palindrome", 1); }
 }
 
 void Programm022()
 {
     Console.WriteLine("Задание: Найти расстояние между точкамами в пространстве 2D/3D");
     System.Threading.Thread.Sleep(2000);
-    string[] text22 = { "X.1", "Y.1", "Z.1", "X.2", "Y.2", "Z.2" };
+    string[] arr22 = { "X.1", "Y.1", "Z.1", "X.2", "Y.2", "Z.2" };
     string resulttext22 = "Distanse of two dots";
-    string[] arr22 = InputData(text22, "Double");
+    InputData(arr22, "Double");
 
     double[] changearr22 = ToDoubleArray(arr22);
     int i22 = 0;
@@ -569,8 +569,8 @@ void Programm023()
 {
     Console.WriteLine("Показать таблицу квадратов чисел от 1 до N");
     System.Threading.Thread.Sleep(2000);
-    string[] text23 = { "N number" };
-    string[] arr23 = InputData(text23, "Int32");
+    string[] arr23 = { "N number" };
+    InputData(arr23, "Int32");
 
     int i23 = 0;
     string start23 = "1";
@@ -590,8 +590,8 @@ void Programm024()
     string task24 = "Найти кубы чисел от 1 до N";
     Console.WriteLine(task24);
     System.Threading.Thread.Sleep(2000);
-    string[] text24 = { "N number" };
-    string[] arr24 = InputData(text24, "Int32");
+    string[] arr24 = { "N number" };
+    InputData(arr24, "Int32");
 
     int i24 = 0;
     string start24 = "1";
@@ -609,8 +609,8 @@ void Programm025()
     string task25 = "Найти сумму чисел от 1 до А";
     Console.WriteLine(task25);
     System.Threading.Thread.Sleep(2000);
-    string[] text25 = { "A number" };
-    string[] arr25 = InputData(text25, "Int32");
+    string[] arr25 = { "A number" };
+    InputData(arr25, "Int32");
 
     int i25 = 0;
     string start25 = "1";
@@ -628,8 +628,8 @@ void Programm026()
     string task26 = "Возведите число А в натуральную степень B, используя цикл";
     Console.WriteLine(task26);
     System.Threading.Thread.Sleep(2000);
-    string[] text26 = { "A number", "B number" };
-    string[] arr26 = InputData(text26, "Int32");
+    string[] arr26 = { "A number", "B number" };
+    InputData(arr26, "Int32");
 
     int i26 = 0;
     int maxcount26 = Convert.ToInt32(arr26[i26 + 1]);
@@ -647,8 +647,8 @@ void Programm027028()
 
     Console.WriteLine("Определить количество цифр в цифре и посчитать сумму цифр в цифре");
     System.Threading.Thread.Sleep(2000);
-    string[] text27 = { "Number" };
-    string[] arr27 = InputData(text27, "Int32");
+    string[] arr27 = { "Number" };
+    InputData(arr27, "Int32");
 
     int summ = 0;
     int[] numb27 = ToIntArrayFromString(arr27[0]);
@@ -661,8 +661,8 @@ void Programm029()
 {
     Console.WriteLine("Написать программу вычисления чисел от 1 до N");
     System.Threading.Thread.Sleep(2000);
-    string[] text29 = { "Number" };
-    string[] arr29 = InputData(text29, "Int32");
+    string[] arr29 = { "Number" };
+    InputData(arr29, "Int32");
     string start29 = "1";
 
 
