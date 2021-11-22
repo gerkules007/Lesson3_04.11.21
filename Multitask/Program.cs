@@ -237,7 +237,9 @@ string[] GetImportData(string place)
 // Метод ввода данных в вычисляемый массив (проверяет на правильность ввода данных)
 void InputData(string[] inputArr, string tool)
 {
-    string toolUpper = tool.ToUpper();
+    string[] toolArr = MakeStringToStringArray(tool, ',');
+    string toolUpper = toolArr[0].ToUpper();
+    int countOrder = int.TryParse(toolArr[1], out int inputCount) ? inputCount : int.MaxValue;
     string inputdata = String.Empty;
     for (int inputI = 0; inputI < inputArr.Length; inputI++)
     {
@@ -245,26 +247,25 @@ void InputData(string[] inputArr, string tool)
         do
         {
             Console.WriteLine(inputArr[inputI]);
-            inputdata = Console.ReadLine()!;
+            do inputdata = Console.ReadLine()!;
+            while(!(String.IsNullOrEmpty(inputdata) ^ GetIntergerNumericalPosition(inputdata) <= countOrder));
+
             switch (toolUpper)
             {
                 case "STRING":
-                    conduction = String.IsNullOrEmpty(inputdata);
+                    conduction = false;
                     break;
                 case "DOUBLE":
-                    conduction = !(Double.TryParse(inputdata, out double outnumber) ^ String.IsNullOrEmpty(inputdata));
+                    conduction = !(Double.TryParse(inputdata, out double outnumber));
                     break;
                 case "INT32":
-                    conduction = !(Int32.TryParse(inputdata, out int outnumber2) ^ String.IsNullOrEmpty(inputdata));
+                    conduction = !(Int32.TryParse(inputdata, out int outnumber2));
                     break;
                 case "INT64":
-                    conduction = !(Int64.TryParse(inputdata, out long outnumber3) ^ String.IsNullOrEmpty(inputdata));
-                    break;
-                case "INT32, 1000<X<10000":
-                    conduction = !((Int32.TryParse(inputdata, out int outnumber4) && 10000 <= outnumber4 && outnumber4 < 100000) ^ String.IsNullOrEmpty(inputdata));
+                    conduction = !(Int64.TryParse(inputdata, out long outnumber3));
                     break;
                 case "PLACE":
-                    conduction = !((inputArr[0][1] == 92) && (inputArr[0][inputArr[0].Length] == '.') ^ String.IsNullOrEmpty(inputdata));
+                    conduction = !(FindSymbol(inputArr[inputI], '.', out int c));
                     inputdata = "@" + $"{inputdata}";
                     break;
                 default:
@@ -397,16 +398,22 @@ string Reverse(string inputReverse)
     return outputReverse;
 }
 
-string[] SeparateArray(string separateArr)
+string[] MakeStringToStringArray(string separateArr, char separateChar)
 {
-    string[] newSA = new string[separateArr.Length];
+    string[] newSA = new string[1];
     string result = string.Empty;
+    int countArr = 1;
     for (int iSA = 0, jSA = 0; iSA < separateArr.Length; iSA++)
     {
-        if (separateArr[iSA] == ' ')
-        { newSA[jSA++] = result; result = string.Empty; }
+        if (separateArr[iSA] == separateChar)
+        { 
+            Array.Resize(ref newSA, countArr + 1);
+            newSA[jSA++] = result;
+            result = string.Empty;
+        }
         else result += $"{separateArr[iSA]}";
     }
+    newSA[newSA.Length] = result;
     return newSA;
 }
 
@@ -546,7 +553,7 @@ void Programm021()
     Console.WriteLine("Задание: Проверить пятизначное число на палидром");
     System.Threading.Thread.Sleep(2000);
     string[] arr21 = { "Palindrome" };
-    InputData(arr21, "Int32, 1000<x<10000");
+    InputData(arr21, "Int32,5");
 
     string newstring21 = Reverse(arr21[0]);
     if (CheckConditionForNumb(arr21[0], newstring21, 4)) WriteResult(arr21[0], "Palindrome", 0);
