@@ -42,10 +42,11 @@ void Enterprogram()
 
     while (exit == false)
     {
-        string[] commresult = { "Введите команду" };
-        InputData(commresult, "string");
-        bool check = int.TryParse(commresult[0], out int number);
-
+        string comm = String.Empty;
+        string[] command = { "Введите команду" };
+        InputData(command, "string");
+        bool check = int.TryParse(command[0], out int number);
+        if (check == false) { comm = command[0]; comm.ToUpper(); }
         switch (check)
         {
             case true:
@@ -57,12 +58,12 @@ void Enterprogram()
                 System.Threading.Thread.Sleep(400);
                 Console.Write(".");
                 Console.WriteLine();
-                ChooseProgramm(commresult[0]);
+                ChooseProgramm(command[0]);
                 Console.WriteLine();
                 System.Threading.Thread.Sleep(500);
                 break;
             case false:
-                switch (commresult[0])
+                switch (comm)
                 {
                     case "Q":
                         exit = true;
@@ -166,7 +167,7 @@ void Start(string[] inputSet, string[] inputArr)
             InputData(inputArr, inputSet[2]);
             break;
         case "IMPORT":
-            // записать метод по поиску символа ":" if (!(inputArr[0][1] == 92)) InputData(inputArr, inputSet[2]);
+            if (FindSymbol(inputArr[0], ':', out int pos) && pos == 3) InputData(inputArr, inputSet[2]);
             GetImportData(inputArr[0]);
             break;
         case "DEFAULT":
@@ -177,35 +178,37 @@ void Start(string[] inputSet, string[] inputArr)
     }
 }
 
-string[] Random(string[] inputArr)
+void Random(string[] inputArr)
 {
-    int minVal = Int32.TryParse(inputArr[0], out int outnumber1) ? Convert.ToInt32(outnumber1) : -1;
-    int maxVal = Int32.TryParse(inputArr[1], out int outnumber2) ? Convert.ToInt32(outnumber2) : -1;
-    if (maxVal == 0 || maxVal == minVal) maxVal = minVal + 1;
+    bool boolMinVal = Int32.TryParse(inputArr[0], out int outnumber1);
+    bool boolMaxVal = Int32.TryParse(inputArr[1], out int outnumber2);
     int countNewArr = Int32.TryParse(inputArr[2], out int outnumber3) ? Convert.ToInt32(outnumber3) : 1;
-    string[] newArr = new string[countNewArr];
     Random rand = new Random();
-    for (int i = 0; i < countNewArr; i++) newArr[i] = Convert.ToString(rand.Next(minVal, maxVal));
-    return newArr;
-}
-
-void RandomLong(string[] inputArr)
-{
-    int countMinNumbValue = GetIntergerNumericalPosition(inputArr[0]);
-    int countMaxNumbValue = GetIntergerNumericalPosition(inputArr[1]);
-    double minValue = Convert.ToDouble(inputArr[0]);
-    double maxValue = Convert.ToDouble(inputArr[1]);
-    double range = maxValue - minValue != 0 ? maxValue - minValue : maxValue;
-    int countNewArr = Int32.TryParse(inputArr[2], out int outnumber3) ? Convert.ToInt32(outnumber3) : 1;
-    string[] newArr = new string[countNewArr];
-    Random rand = new Random();
-    double numb = 0;
-    for (int i = 0; i < countNewArr; i++)
+    if (boolMinVal && boolMaxVal)
     {
-        numb = (-1) * Math.Round(rand.NextDouble() - 1, countMaxNumbValue);
-        numb *= range;
-        numb += minValue;
-        inputArr[i] = Convert.ToString(Math.Round(numb));
+        int minVal = Convert.ToInt32(inputArr[0]);
+        int maxVal = Convert.ToInt32(inputArr[1]);
+        Array.Resize(ref inputArr, countNewArr);
+        if (maxVal == 0 || maxVal == minVal) maxVal = minVal + 1;
+        for (int i = 0; i < countNewArr; i++) inputArr[i] = Convert.ToString(rand.Next(minVal, maxVal));
+    }
+    else
+    {
+        int countMinNumbValue = GetIntergerNumericalPosition(inputArr[0]);
+        int countMaxNumbValue = GetIntergerNumericalPosition(inputArr[1]);
+        int countRange = countMinNumbValue < countMaxNumbValue ? countMaxNumbValue : countMinNumbValue;
+        double minValue = Convert.ToDouble(inputArr[0]);
+        double maxValue = Convert.ToDouble(inputArr[1]);
+        Array.Resize(ref inputArr, countNewArr);
+        double range = maxValue - minValue != 0 ? maxValue - minValue : maxValue;
+        double numb = 0;
+        for (int i = 0; i < countNewArr; i++)
+        {
+            numb = Math.Round(rand.NextDouble(), countRange);
+            numb *= range;
+            numb += minValue;
+            inputArr[i] = Convert.ToString(Math.Round(numb));
+        }
     }
 }
 
