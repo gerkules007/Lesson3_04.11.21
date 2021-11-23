@@ -45,7 +45,7 @@ void Enterprogram()
         string comm = String.Empty;
         string[] command = { "Введите команду" };
         InputData(command, "string");
-        
+
         bool check = int.TryParse(command[0], out int number);
         if (check == false) comm = command[0].ToUpper();
         switch (check)
@@ -179,14 +179,15 @@ void Start(string[] inputSet, ref string[] inputArr)
             Random(ref inputArr);
             break;
         case "ENTER":
-            if (int.TryParse(inputArr[0], out int outnumb1)) CreateArrayRangeInt32(ref inputArr);
-            else InputData(inputArr, inputSet[2]);
+            InputData(inputArr, inputSet[2]);
             break;
         case "IMPORT":
             if (FindSymbol(inputArr[0], ':', out int pos) && pos == 3) InputData(inputArr, inputSet[2]);
             GetImportData(inputArr[0]);
             break;
         case "DEFAULT":
+            InputData(inputArr, inputSet[2]);
+            CreateArrayRangeInt32(ref inputArr);
             break;
         default:
             Console.WriteLine("Error, check kind of method input: Random, Enter, Default, Import");
@@ -260,44 +261,47 @@ void InputData(string[] inputArr, string tool)
     string inputdata = String.Empty;
     for (int inputI = 0; inputI < inputArr.Length; inputI++)
     {
-        bool conduction = false;
-        do
+        if (!Double.TryParse(inputArr[inputI], out double outnumber))
         {
+            bool conduction = false;
             do
             {
-                Console.WriteLine(inputArr[inputI]);
-                inputdata = Console.ReadLine()!;
-            }
-            while (!(String.IsNullOrEmpty(inputdata) ^ GetIntergerNumericalPosition(inputdata) <= countOrder));
+                do
+                {
+                    Console.WriteLine(inputArr[inputI]);
+                    inputdata = Console.ReadLine()!;
+                }
+                while (!(String.IsNullOrEmpty(inputdata) ^ GetIntergerNumericalPosition(inputdata) <= countOrder));
 
-            switch (toolUpper)
-            {
-                case "STRING":
-                    conduction = false;
-                    break;
-                case "DOUBLE":
-                    conduction = !(Double.TryParse(inputdata, out double outnumber));
-                    break;
-                case "INT32":
-                    conduction = !(Int32.TryParse(inputdata, out int outnumber2));
-                    break;
-                case "INT64":
-                    conduction = !(Int64.TryParse(inputdata, out long outnumber3));
-                    break;
-                case "INT32RANGE":
-                    conduction = !(Int32.TryParse(inputdata, out int outnumber4) && outnumber4 < int.MaxValue/2 && outnumber4 > int.MinValue/2);
-                    break;    
-                case "PLACE":
-                    conduction = !(FindSymbol(inputArr[inputI], '.', out int c));
-                    inputdata = "@" + $"{inputdata}";
-                    break;
-                default:
-                    Console.WriteLine("Uncorrect indefy format, please enter correct format of input values");
-                    conduction = false;
-                    break;
-            }
-        } while (conduction);
-        inputArr[inputI] = inputdata;
+                switch (toolUpper)
+                {
+                    case "STRING":
+                        conduction = false;
+                        break;
+                    case "DOUBLE":
+                        conduction = !(Double.TryParse(inputdata, out double outnumber));
+                        break;
+                    case "INT32":
+                        conduction = !(Int32.TryParse(inputdata, out int outnumber2));
+                        break;
+                    case "INT64":
+                        conduction = !(Int64.TryParse(inputdata, out long outnumber3));
+                        break;
+                    case "INT32RANGE":
+                        conduction = !(Int32.TryParse(inputdata, out int outnumber4) && outnumber4 < int.MaxValue / 2 && outnumber4 > int.MinValue / 2);
+                        break;
+                    case "PLACE":
+                        conduction = !(FindSymbol(inputArr[inputI], '.', out int c));
+                        inputdata = "@" + $"{inputdata}";
+                        break;
+                    default:
+                        Console.WriteLine("Uncorrect indefy format, please enter correct format of input values");
+                        conduction = false;
+                        break;
+                }
+            } while (conduction);
+            inputArr[inputI] = inputdata;
+        }
     }
 }
 
@@ -507,66 +511,57 @@ void Programm000()
 
 void Programm018()
 {
-    Console.WriteLine("Задание: Проверить истинность утверждения ¬(X ⋁ Y) = ¬X ⋀ ¬Y");
-    System.Threading.Thread.Sleep(2000);
-    string[] arr18 = { "Введите первое условие", "Введите второе условие" };
-    InputData(arr18, "String");
-
-    bool bone = ToBoolean(arr18, 0);
-    bool btwo = ToBoolean(arr18, 1);
+    string[] start18 = { "Проверить истинность утверждения ¬(X ⋁ Y) = ¬X ⋀ ¬Y", "Enter", "string" };
+    string[] currArr18 = { "Введите первое условие", "Введите второе условие" };
+    
+    bool bone = ToBoolean(currArr18, 0);
+    bool btwo = ToBoolean(currArr18, 1);
     if ((!(bone || btwo)) == (!bone && !btwo)) Console.WriteLine($"Выражение (!( x || y)) истинно к (!x && !y)");
     else { Console.WriteLine($"Выражение (!( x || y)) ложно к (!x && !y)"); }
 }
 
 void Programm019()
 {
-    Console.WriteLine("Задание: Определить номер четверти плоскости, в которой находится точка с координатами Х и У, причем X ≠ 0 и Y ≠ 0");
-    System.Threading.Thread.Sleep(2000);
-    string[] arr19 = { "Введите координаты x", "Введите координаты y" };
-    InputData(arr19, "Double");
+    string[] start19 = { "Определить номер четверти плоскости, в которой находится точка с координатами Х и У, причем X ≠ 0 и Y ≠ 0", "Enter", "double" };
+    string[] currArr19 = { "Введите координаты x", "Введите координаты y" };
+    Start(start19, ref currArr19);
     string[] workarr19 = { "0" };
 
-    bool checkX = CheckConditionForNumb(workarr19[0], arr19[0], 1);
-    bool checkY = CheckConditionForNumb(workarr19[0], arr19[1], 1);
+    bool checkX = CheckConditionForNumb(workarr19[0], currArr19[0], 1);
+    bool checkY = CheckConditionForNumb(workarr19[0], currArr19[1], 1);
     Console.WriteLine($"{checkX} {checkY}");
     // case (x == 0 || y == 0):
-    if (CheckConditionForNumb(workarr19[0], arr19[0], 4) || CheckConditionForNumb(workarr19[0], arr19[1], 4))
+    if (CheckConditionForNumb(workarr19[0], currArr19[0], 4) || CheckConditionForNumb(workarr19[0], currArr19[1], 4))
     {
-        Console.Write(".");
-        System.Threading.Thread.Sleep(500);
-        Console.Write(".");
-        System.Threading.Thread.Sleep(500);
-        Console.Write(".");
-        Console.WriteLine();
+        Console.Write("."); System.Threading.Thread.Sleep(500); Console.Write("."); System.Threading.Thread.Sleep(500); Console.Write("."); Console.WriteLine();
         System.Threading.Thread.Sleep(500);
         Console.WriteLine("Для определение четвертей, x и y не могут быть равны 0, напишите числа заново");
     }
     else if (!(checkX ^ checkY))
     {
         // case (x > 0 && y > 0):
-        if (checkX && checkY) Console.WriteLine($"Числа {arr19[0]} и {arr19[1]} находятся в I четверти");
+        if (checkX && checkY) Console.WriteLine($"Числа {currArr19[0]} и {currArr19[1]} находятся в I четверти");
         // case (x < 0 && y < 0):
-        else { Console.WriteLine($"Числа {arr19[0]} и {arr19[1]} находятся во III четверти"); }
+        else { Console.WriteLine($"Числа {currArr19[0]} и {currArr19[1]} находятся во III четверти"); }
     }
     else
     {
         // case (x < 0 && y > 0):
-        if (!checkX || checkY) Console.WriteLine($"Числа {arr19[0]} и {arr19[1]} находятся в II четверти");
+        if (!checkX || checkY) Console.WriteLine($"Числа {currArr19[0]} и {currArr19[1]} находятся в II четверти");
         // case (x < 0 && y < 0)
-        else { Console.WriteLine($"Числа {arr19[0]} и {arr19[1]} находятся во IV четверти"); }
+        else { Console.WriteLine($"Числа {currArr19[0]} и {currArr19[1]} находятся во IV четверти"); }
     }
 }
 
 void Programm020()
 {
-    Console.WriteLine("Задание: Ввести номер четверти, показать диапазоны для возможных координат");
-    System.Threading.Thread.Sleep(2000);
-    string[] arr20 = { "Number of quarter" };
-    InputData(arr20, "Double");
+    string[] start20 = { "Ввести номер четверти, показать диапазоны для возможных координат", "Enter", "int32,1" };
+    string[] currArr20 = { "Number of quarter" };
+    Start(start20, ref currArr20);
 
     string[] instruction20 = { "1 quater", "2 quater", "3 quater", "4 quater" };
     string[] result20 = { "x = (0, +infinity), y = (0, +infinity)", "x = (-infinity, 0), y = (0, +infinity)", "x = (-infinity, 0), y = (-infinity, 0)", "x = (0, +infinity), y = (-infinity, 0)" };
-    switch (arr20[0])
+    switch (currArr20[0])
     {
         case "1":
             WriteResult(instruction20[0], result20[0], 0);
@@ -587,25 +582,23 @@ void Programm020()
 }
 void Programm021()
 {
-    Console.WriteLine("Задание: Проверить пятизначное число на палидром");
-    System.Threading.Thread.Sleep(2000);
-    string[] arr21 = { "Palindrome" };
-    InputData(arr21, "Int32,5");
+    string[] start21 = { "Проверить пятизначное число на палидром", "Enter", "int32,5" };
+    string[] currArr21 = { "Palindrome" };
+    Start(start21, ref currArr21);
 
-    string newstring21 = Reverse(arr21[0]);
-    if (CheckConditionForNumb(arr21[0], newstring21, 4)) WriteResult(arr21[0], "Palindrome", 0);
-    else { WriteResult(arr21[0], "Palindrome", 1); }
+    string newstring21 = Reverse(currArr21[0]);
+    if (CheckConditionForNumb(currArr21[0], newstring21, 4)) WriteResult(currArr21[0], "Palindrome", 0);
+    else { WriteResult(currArr21[0], "Palindrome", 1); }
 }
 
 void Programm022()
 {
-    Console.WriteLine("Задание: Найти расстояние между точкамами в пространстве 2D/3D");
-    System.Threading.Thread.Sleep(2000);
-    string[] arr22 = { "X.1", "Y.1", "Z.1", "X.2", "Y.2", "Z.2" };
+    string[] start22 = { "Найти расстояние двух точек в 2D/3D (в 2D Z = 0)", "Enter", "int32" };
+    string[] currArr22 = { "X.1", "Y.1", "Z.1", "X.2", "Y.2", "Z.2" };
+    Start(start22, ref currArr22);
     string resulttext22 = "Distanse of two dots";
-    InputData(arr22, "Double");
 
-    double[] changearr22 = ToDoubleArray(arr22);
+    double[] changearr22 = ToDoubleArray(currArr22);
     int i22 = 0;
     // result = корень из (x1-x2)^2 + (y1-y2)^2
     string result22 = Convert.ToString(Math.Round(Math.Sqrt(Math.Pow((changearr22[i22] - changearr22[i22 + 3]), 2) + Math.Pow((changearr22[i22 + 1] - changearr22[i22 + 4]), 2) + Math.Pow((changearr22[i22 + 2] - changearr22[i22 + 5]), 2)), 2));
@@ -614,100 +607,69 @@ void Programm022()
 
 void Programm023()
 {
-    Console.WriteLine("Показать таблицу квадратов чисел от 1 до N");
-    System.Threading.Thread.Sleep(2000);
-    string[] arr23 = { "N number" };
-    InputData(arr23, "Int32");
-
-    int i23 = 0;
-    string start23 = "1";
-    int maxcount23 = Convert.ToInt32(arr23[i23]) - Convert.ToInt32(start23);
-    double[] newArr23 = new double[maxcount23];
-    CreateArrayDoubleRange(newArr23, start23, arr23[i23]);
-    double[] arrResult23 = new double[newArr23.Length];
-    for (i23 = 0; i23 < arrResult23.Length; i23++)
+    string[] start23 = { "Показать таблицу квадратов чисел от 1 до N", "default", "int32range" };
+    string[] currArr23 = { "1", "Enter N" };
+    Start(start23, ref currArr23);
+    int max23 = Convert.ToInt32(currArr23[1]);
+    double[] newArr23 = new double[max23];
+    for (int i23 = 0; i23 < max23; i23++)
     {
-        arrResult23[i23] = Math.Pow(newArr23[i23], 2);
-        WriteResult(Convert.ToString(newArr23[i23]), Convert.ToString(arrResult23[i23]), 0);
+        newArr23[i23] = Math.Pow(Convert.ToDouble(currArr23[i23]), 2);
+        WriteResult(Convert.ToString(currArr23[i23]), Convert.ToString(newArr23[i23]), 0);
     }
 }
 
 void Programm024()
 {
-    string task24 = "Найти кубы чисел от 1 до N";
-    Console.WriteLine(task24);
-    System.Threading.Thread.Sleep(2000);
-    string[] arr24 = { "N number" };
-    InputData(arr24, "Int32");
-
-    int i24 = 0;
-    string start24 = "1";
-    int maxcount24 = Convert.ToInt32(arr24[i24]) - Convert.ToInt32(start24);
-    double[] newArr24 = new double[maxcount24];
-    CreateArrayDoubleRange(newArr24, start24, arr24[i24]);
-    double[] arrResult24 = new double[newArr24.Length];
-    for (i24 = 0; i24 < arrResult24.Length; i24++) arrResult24[i24] = Math.Pow(newArr24[i24], 3);
-    task24 = $"Найти кубы чисел от 1 до {arr24[0]}";
-    WriteResult(task24, CreateStringAsArray(arrResult24), 0);
+    string[] start24 = { "Найти кубы чисел от 1 до N", "default", "int32range" };
+    string[] currArr24 = { "1", "Enter N" };
+    string end24 = currArr24[1];
+    Start(start24, ref currArr24);
+    for (int i24 = 0; i24 < currArr24.Length; i24++) currArr24[i24] = Convert.ToString(Math.Pow(Convert.ToDouble(currArr24[i24]), 3));
+    WriteResult($"cubes of numbers from 1 to {end24}", StringResult(currArr24), 0);
 }
 
 void Programm025()
 {
-    string task25 = "Найти сумму чисел от 1 до А";
-    Console.WriteLine(task25);
-    System.Threading.Thread.Sleep(2000);
-    string[] arr25 = { "A number" };
-    InputData(arr25, "Int32");
-
-    int i25 = 0;
-    string start25 = "1";
-    int maxcount25 = Convert.ToInt32(arr25[i25]) - Convert.ToInt32(start25);
-    double[] newArr25 = new double[maxcount25];
-    CreateArrayDoubleRange(newArr25, start25, arr25[i25]);
-    double summ = 0;
-    for (; i25 < newArr25.Length; i25++) summ += newArr25[i25];
-    task25 = $"Найти сумму чисел от 1 до {arr25[0]}";
-    WriteResult(task25, Convert.ToString(summ), 0);
+    string[] start25 = { "Найти сумму чисел от 1 до А", "default", "Int32" };
+    string[] currArr25 = { "1", "A number" };
+    Start(start25, ref currArr25);
+    int SN25 = Convert.ToInt32(currArr25[0]);
+    int leng25 = Convert.ToInt32(currArr25[1]);
+    double summ25 = 0;
+    for (int i25 = 0; i25 < leng25; i25++) summ25 += SN25;
+    WriteResult($"{leng25}", Convert.ToString(summ25), 0);
 }
 
 void Programm026()
 {
-    string task26 = "Возведите число А в натуральную степень B, используя цикл";
-    Console.WriteLine(task26);
-    System.Threading.Thread.Sleep(2000);
-    string[] arr26 = { "A number", "B number" };
-    InputData(arr26, "Int32");
-
-    int i26 = 0;
-    int maxcount26 = Convert.ToInt32(arr26[i26 + 1]);
-    double[] newArr26 = new double[maxcount26];
-    CreateArrayDoubleRange(newArr26, arr26[i26], arr26[i26]);
-    double multiplication26 = 1;
-    for (i26 = 0; i26 < newArr26.Length; i26++) multiplication26 *= newArr26[i26];
-    WriteResult($"{arr26[0]} in {arr26[1]}", Convert.ToString(multiplication26), 0);
+    string[] start26 = { "Возведите число А в натуральную степень B, используя цикл", "Enter", "Int32" };
+    string[] currArr26 = { "A number", "B number" };
+    Start(start26, ref currArr26);
+    int AN0 = Convert.ToInt32(currArr26[0]);
+    int leng26 = Convert.ToInt32(currArr26[1]);
+    double result = 1;
+    for (int i26 = 0; i26 < leng26; i26++) result *= AN0;
+    WriteResult($"{currArr26[0]} in {currArr26[1]}", Convert.ToString(result), 0);
 }
 
 void Programm027028()
 {
-    // Перевод числа из строки в символы, а затем в цифры
-    // сумма всех чисел и печать
-
-    Console.WriteLine("Определить количество цифр в цифре и посчитать сумму цифр в цифре");
-    System.Threading.Thread.Sleep(2000);
-    string[] arr27 = { "Number" };
-    InputData(arr27, "Int32");
-
+    string[] start27 = { "Определить количество цифр в цифре и посчитать сумму цифр в цифре", "Enter", "Int32" };
+    string[] currArr27 = { "Number" };
+    Start(start27, ref currArr27);
+    int resultCount = GetIntergerNumericalPosition(currArr27[0]);
     int summ = 0;
-    int[] numb27 = ToIntArrayFromString(arr27[0]);
+    int[] numb27 = ToIntArrayFromString(currArr27[0]);
     foreach (int n in numb27) summ += n;
-    WriteResult("count numb", $"{numb27.Length}", 0);
+    WriteResult("count numb", $"{resultCount}", 0);
     WriteResult("summ numb", $"{summ}", 0);
 }
 
 void Programm029()
 {
     string[] start29 = { "Написать программу вычисления чисел от 1 до N", "Enter", "int32range" };
-    string[] currArr29 = {"1", "327"};
+    string[] currArr29 = { "1", "327" };
     Start(start29, ref currArr29);
     WriteResult($"{currArr29.Length}", StringResult(currArr29), 0);
 }
@@ -715,7 +677,7 @@ void Programm029()
 void Programm030()
 {
     string[] start30 = { "Показать кубы чисел, заканчивающихся на четную цифру", "Random", "Double" };
-    string[] currArr30 = {"-5","5","10"};
+    string[] currArr30 = { "-5", "5", "10" };
     Start(start30, ref currArr30);
     PrintArrayIntoConsole(currArr30, 0);
     double[] newArr30 = ToDoubleArray(currArr30);
