@@ -473,7 +473,7 @@ void PrintArrayIntoConsole(string[] printarr, int printset)
 
 void Programm000()
 {
-    
+
     // string[] settings5 = { "Приветствие", "IMPORT", "PLACE" };
     // string[] Arr5 = { @"C:\Users\ovcse\Desktop\РАЗРАБОТЧИК\СЕМИНАРЫ\in CS\Lesson4\17.txt" };
     // Start(settings, Arr5);
@@ -662,32 +662,32 @@ void Programm030()
 
 void Programm031()
 {
-    string[] start31 = {"Задать массив из 8 элементов и вывести их на экран", "Enter", "Int32"};
-    string[] currArr31 = { "First", "Second", "Third", "Fourth", "Fiveth", "Secondth", "Seventh", "Eighth"};
+    string[] start31 = { "Задать массив из 8 элементов и вывести их на экран", "Enter", "Int32" };
+    string[] currArr31 = { "First", "Second", "Third", "Fourth", "Fiveth", "Secondth", "Seventh", "Eighth" };
     Start(start31, ref currArr31);
     WriteResult($"8 elements", StringResult(currArr31), 0);
 }
 
 void Programm032()
 {
-    string[] start32 = {"Задать массив из 8 элементов, заполненных нулями и единицами вывести их на экран", "Random", "Int32"};
-    string[] currArr32 = { "0", "1", "8"};
+    string[] start32 = { "Задать массив из 8 элементов, заполненных нулями и единицами вывести их на экран", "Random", "Int32range" };
+    string[] currArr32 = { "0", "1", "8" };
     Start(start32, ref currArr32);
     WriteResult($"8 elements", StringResult(currArr32), 0);
 }
 
 void Programm033()
 {
-    string[] start33 = {"Задать массив из 12 элементов, заполненных числами из [-9 ,9]. Найти сумму положительных/отрицательных элементов массива", "Random", "Int32"};
-    string[] currArr33 = { "-9", "9", "12"};
+    string[] start33 = { "Задать массив из 12 элементов, заполненных числами из [-9 ,9]. Найти сумму положительных/отрицательных элементов массива", "Random", "Int32" };
+    string[] currArr33 = { "-9", "9", "12" };
     Start(start33, ref currArr33);
 
     int summPositiv33 = 0, summNegative33 = 0;
     int numbArr33 = 0;
-    foreach (string numb33 in currArr33) 
+    foreach (string numb33 in currArr33)
     {
         numbArr33 = Convert.ToInt32(numb33);
-        if ( numbArr33 > 0) summPositiv33 += numbArr33;
+        if (numbArr33 > 0) summPositiv33 += numbArr33;
         else summNegative33 += numbArr33;
     }
     WriteResult("Positiv", $"{summPositiv33}", 0);
@@ -696,8 +696,8 @@ void Programm033()
 
 void Programm034()
 {
-    string[] start34 = {"Написать программу замену элементов массива на противоположные", "Random", "Int32range"};
-    string[] currArr34 = { "-100", "100", "15"};
+    string[] start34 = { "Написать программу замену элементов массива на противоположные", "Random", "Int32range" };
+    string[] currArr34 = { "-100", "100", "15" };
     Start(start34, ref currArr34);
 
     Console.WriteLine($"Созданный массив: {StringResult(currArr34)}");
@@ -742,7 +742,7 @@ void Programm037()
 {
     string[] start37 = { "В одномерном массиве из 123 чисел найти количество элементов из отрезка [10,99]", "Random", "Int32range" };
     string[] currArr37 = { "Введите минимальные значения", "Введите максимальные значения", "123" };
-    int[] settings37 = { 10 , 99 };
+    int[] settings37 = { 10, 99 };
     Start(start37, ref currArr37);
 
     int count37 = 0;
@@ -753,6 +753,64 @@ void Programm037()
         if (min <= temp && max >= temp) count37++;
     }
     WriteResult($"count element of [{min};{max}]", $"{count37}", 0);
+}
+void Programm038()
+{
+
+    string[] start38 = { "Найти сумму чисел одномерного массива стоящих на нечетной позиции", "Random", "Int32range" };
+    string[] currArr38 = { "-100", "100", "100" };
+    Start(start38, ref currArr38);
+    int summ38 = 0;
+    for (int i = 1; i < currArr38.Length; i += 2) summ38 += Convert.ToInt32(currArr38[i]);
+    WriteResult($"summary noeven numbers", StringResult(currArr38), 0);
+}
+void Programm039()
+{
+    string[] start39 = { "Найти произведение пар чисел в одномерном массиве. Парой считаем первый и последний элемент, второй и предпоследний и т.д.", "default", "Int32" };
+    string[] currArr39 = { "-100", "100" };
+    Start(start39, ref currArr39);
+    int center39 = (int)Math.Floor(Convert.ToDouble(currArr39.Length / 2));
+    string[] newArr39 = new string[center39];
+    if (currArr39.Length % 2 == 0)
+    {
+        for (int i = 0, j = currArr39.Length - 1; i < center39; i++, j--)
+        {
+            newArr39[i] = newArr39[i] = Convert.ToString(Convert.ToInt32(currArr39[i]) * Convert.ToInt32(currArr39[j]));
+        }
+    }
+    else
+    {
+        for (int i = center39, j = center39; j < currArr39.Length; i--, j++)
+        {
+            newArr39[i] = Convert.ToString(Convert.ToInt32(currArr39[i]) * Convert.ToInt32(currArr39[j]));
+            Array.Reverse(newArr39);
+        }
+    }
+    WriteResult($"multiplied pairs", StringResult(newArr39), 0);
+}
+void Programm040()
+{
+    string[] start40 = { "В Указанном массиве вещественных чисел найдите разницу между максимальным и минимальным элементом", "Random", "Double" };
+    string[] currArr40 = { "0.5", "2", "15" };
+    Start(start40, ref currArr40);
+    double min40 = 0, max40 = 0, a40 = 0;
+    foreach (string s in currArr40)
+    {
+        a40 = Convert.ToDouble(s);
+        if (a40 > max40) max40 = a40;
+        if (a40 < min40) min40 = a40;
+    }
+    double result = max40 - min40;
+    WriteResult($"difference between max and min", $"{result}", 0);
+    
+}
+void Programm041()
+{
+    string[] start41 = { "Выяснить являются ли три числа сторонами треугольника", "Enter", "Int32" };
+    string[] currArr41 = { "Enter first side", "Enter second side", "Enter third side" };
+    Start(start41, ref currArr41);
+    bool result41 = (Math.Pow(Convert.ToDouble(currArr41[0]),2) + Math.Pow(Convert.ToDouble(currArr41[1]),2) == Math.Pow(Convert.ToDouble(currArr41[2]),2));
+    WriteResult($"3 elements of triangle", $"{result41}", 0);
 }
 
 
