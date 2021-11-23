@@ -1,18 +1,4 @@
-﻿/* Алгоритм программы
-Приветствие
-Ввод команды
-    Ввод числа
-        Выбор задачи
-            Методы решения задачи
-    Ввод символа
-        Помощь
-        Выход
-        Изменение входных парметров программы
-        Ошибка если нет символов
-Печать результата
-*/
-
-/* Структура программы
+﻿/* Структура программы
 Приветствие
 Ввод команды
     Ввод числа
@@ -25,12 +11,7 @@
     Номер программы
 Метод Введение данных
 Метод Начального запуска программы
-Метод Рандомного числа
-Метод Печати массива
-Методы перевода string в int, double
-Печать полученного решения на экран
 */
-
 
 // Метод ввода номера программы
 void Enterprogram()
@@ -132,8 +113,56 @@ void ChooseProgramm(string task)
         case "30":
             Programm030();
             break;
+        case "31":
+            Programm031();
+            break;
+        case "32":
+            Programm032();
+            break;
+        case "33":
+            Programm033();
+            break;
+        case "34":
+            Programm034();
+            break;
         case "35":
             Programm035();
+            break;
+        case "36":
+            Programm036();
+            break;
+        case "37":
+            Programm037();
+            break;
+        case "38":
+            Programm038();
+            break;
+        case "39":
+            Programm039();
+            break;
+        case "40":
+            Programm040();
+            break;
+        case "41":
+            Programm041();
+            break;
+        case "42":
+            Programm042();
+            break;
+        case "43":
+            Programm043();
+            break;
+        case "44":
+            Programm044();
+            break;
+        case "45":
+            Programm045();
+            break;
+        case "46":
+            Programm046();
+            break;
+        case "47":
+            Programm047();
             break;
         default:
             Console.WriteLine("Такой задачи не существует, попробуйте еще раз");
@@ -141,28 +170,6 @@ void ChooseProgramm(string task)
     }
 }
 
-/*
-Данные даны и вводить ничего не нужно
-Данные нужно задавать через консоль и они будут применяться к методам
-Данные вводятся вручную
-Данные будут импортироваться из файла
-
-*/
-/* Метод выбора массива, Какие данные введены, Ввод необходимых параметров, последний элемент: начальное приветствие
-string[] settings = {"Приветствие", "Random", "Int32"};
-string[] newArr = {"Введите минимальные значения", "Введите максимальные значения", "Введите количество"};
-string[] settings = {"Приветствие", "Random", "Int32"};
-string[] newArr = {"10", "15", "10"};
-string[] settings = {"Приветствие", "Enter", "Int32"};
-string[] newArr = {"Первое число, второе число"};
-string[] settings = {"Приветствие", "Enter", "Int32"};
-string[] newArr = {"10", "15", "10", "15", "10"};
-string[] settings = {"Приветствие", "Import", "String"};
-string[] newArr = {"Введите путь"};
-string[] settings = {"Приветствие", "Import", "String"};
-string[] newArr = {"E\"};
-
-*/
 void Start(string[] inputSet, ref string[] inputArr)
 {
     Console.Clear();
