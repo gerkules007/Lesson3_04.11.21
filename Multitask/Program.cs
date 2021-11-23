@@ -812,7 +812,33 @@ void Programm041()
     bool result41 = (Math.Pow(Convert.ToDouble(currArr41[0]),2) + Math.Pow(Convert.ToDouble(currArr41[1]),2) == Math.Pow(Convert.ToDouble(currArr41[2]),2));
     WriteResult($"3 elements of triangle", $"{result41}", 0);
 }
-
+void Programm042()
+{
+    string[] start42 = { "Определить сколько чисел больше 0 введено с клавиатуры", "Enter", "Int32" };
+    string[] currArr42 = { "Введите количество попыток ввода" };
+    Start(start42, ref currArr42);
+    int leng42 = Convert.ToInt32(currArr42[0]);
+    int count42 = 0;
+    for (int i42 = 0; i42 < leng42; i42++)
+    {
+        string[] textArr42 = {"Введите число"};
+        InputData(textArr42, "Int32");
+        if (Convert.ToInt32(textArr42[0]) > 0 ) count42++;
+    }
+    WriteResult("numbers > 0 from keyboard", $"{count42}", 0);
+}
+void Programm043()
+{
+    string[] start43 = { "Написать программу преобразования десятичного числа в двоичное", "Enter", "Int32" };
+    string[] currArr43 = { "Number" };
+    Start(start43, ref currArr43);
+    sbyte sB43 = Convert.ToSByte(currArr43[0]);
+    WriteResult($"number to byte", $"{sB43}", 0);
+}
+void Programm044()
+{
+    
+}
 
 // Main
 // Console.WriteLine("Введите свое имя");
