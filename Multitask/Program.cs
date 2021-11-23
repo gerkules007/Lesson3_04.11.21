@@ -655,10 +655,42 @@ void Programm030()
     string[] start30 = { "Показать кубы чисел, заканчивающихся на четную цифру", "Random", "Double" };
     string[] currArr30 = { "-5", "5", "10" };
     Start(start30, ref currArr30);
-    PrintArrayIntoConsole(currArr30, 0);
     double[] newArr30 = ToDoubleArray(currArr30);
     Console.WriteLine("Результат для нахождения кубов чисел");
     for (int i = 0; i < newArr30.Length; i++) if (Math.Pow(newArr30[i], 3) % 2 == 0) Console.Write($"{Math.Pow(newArr30[i], 3)} ");
+}
+
+void Programm031()
+{
+    string[] start31 = {"Задать массив из 8 элементов и вывести их на экран", "Enter", "Int32"};
+    string[] currArr31 = { "First", "Second", "Third", "Fourth", "Fiveth", "Secondth", "Seventh", "Eighth"};
+    Start(start31, ref currArr31);
+    WriteResult($"8 elements", StringResult(currArr31), 0);
+}
+
+void Programm032()
+{
+    string[] start32 = {"Задать массив из 8 элементов, заполненных нулями и единицами вывести их на экран", "Random", "Int32"};
+    string[] currArr32 = { "0", "1", "8"};
+    Start(start32, ref currArr32);
+    WriteResult($"8 elements", StringResult(currArr32), 0);
+}
+
+void Programm033()
+{
+    string[] start33 = {"Задать массив из 12 элементов, заполненных числами из [-9 ,9]. Найти сумму положительных/отрицательных элементов массива", "Random", "Int32"};
+    string[] currArr33 = { "-9", "9", "12"};
+    Start(start33, ref currArr33);
+    int summPositiv33 = 0, summNegative33 = 0;
+    int numbArr33 = 0;
+    foreach (string numb33 in currArr33) 
+    {
+        numbArr33 = Convert.ToInt32(numb33);
+        if ( numbArr33 > 0) summPositiv33 += numbArr33;
+        else summNegative33 += numbArr33;
+    }
+    WriteResult("Positiv", $"{summPositiv33}", 0);
+    WriteResult("Negative", $"{summNegative33}", 0);
 }
 
 void Programm035()
