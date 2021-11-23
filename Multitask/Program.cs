@@ -398,7 +398,11 @@ int[] ToIntArrayFromString(string inputStr)
 //     Array.Resize(ref array2, count);
 //     return array2;
 // }
-
+double Fibonacci(double n)
+{
+    if (n == 1 || n == 2) return 1;
+    else return Fibonacci(n - 1) + Fibonacci(n - 2);
+}
 void CreateArrayDoubleRange(double[] doubleArray, string minCount, string maxCount)
 {
     int minCAI = Convert.ToInt32(minCount);
@@ -802,14 +806,14 @@ void Programm040()
     }
     double result = max40 - min40;
     WriteResult($"difference between max and min", $"{result}", 0);
-    
+
 }
 void Programm041()
 {
     string[] start41 = { "Выяснить являются ли три числа сторонами треугольника", "Enter", "Int32" };
     string[] currArr41 = { "Enter first side", "Enter second side", "Enter third side" };
     Start(start41, ref currArr41);
-    bool result41 = (Math.Pow(Convert.ToDouble(currArr41[0]),2) + Math.Pow(Convert.ToDouble(currArr41[1]),2) == Math.Pow(Convert.ToDouble(currArr41[2]),2));
+    bool result41 = (Math.Pow(Convert.ToDouble(currArr41[0]), 2) + Math.Pow(Convert.ToDouble(currArr41[1]), 2) == Math.Pow(Convert.ToDouble(currArr41[2]), 2));
     WriteResult($"3 elements of triangle", $"{result41}", 0);
 }
 void Programm042()
@@ -821,9 +825,9 @@ void Programm042()
     int count42 = 0;
     for (int i42 = 0; i42 < leng42; i42++)
     {
-        string[] textArr42 = {"Введите число"};
+        string[] textArr42 = { "Введите число" };
         InputData(textArr42, "Int32");
-        if (Convert.ToInt32(textArr42[0]) > 0 ) count42++;
+        if (Convert.ToInt32(textArr42[0]) > 0) count42++;
     }
     WriteResult("numbers > 0 from keyboard", $"{count42}", 0);
 }
@@ -837,9 +841,51 @@ void Programm043()
 }
 void Programm044()
 {
-    
+    string[] start44 = { "Найти точку пересечения двух прямых заданных уравнением y=kx+b, а1 k1 и а2 и k2", "Enter", "Int32" };
+    string[] currArr44 = { "Enter k1", "Enter b1", "Enter k2", "Enter b2" };
+    Start(start44, ref currArr44);
+    double[] newArr44 = ToDoubleArray(currArr44);
+    double resultX = 0, resultY = 0;
+    if (newArr44[0] != newArr44[2])
+    {
+        resultX = (newArr44[3] - newArr44[1]) / (newArr44[0] - newArr44[2]);
+        resultY = (newArr44[3] * newArr44[0] - newArr44[1] * newArr44[2]) / (newArr44[0] - newArr44[2]);
+    }
+    else Console.WriteLine("k1 and k2 must be !=");
+    WriteResult($"x", $"{resultX:F2}", 0);
+    WriteResult($"y", $"{resultY:F2}", 0);
 }
-
+void Programm045()
+{
+    string[] start32 = { "Показать числа Фиббоначи", "Enter", "Int32,3" };
+    string[] currArr32 = { "Укажите предел" };
+    Start(start32, ref currArr32);
+    double n45 = Convert.ToDouble(currArr32[0]);
+    for (int i = 1; i <= n45; i++) Console.WriteLine($"Result for {Fibonacci(i)}");
+}
+void Programm046()
+{
+    string[] start46 = { "Написать программу масштабирования фигуры", "Enter", "Int32,4" };
+    string[] currArr46 = { "Enter width of image", "Enter height of image", "Enter scale %" };
+    Start(start46, ref currArr46);
+    double[] newArr46 = ToDoubleArray(currArr46);
+    double newS = newArr46[0] * newArr46[1] * newArr46[2] / 100;
+    double resultX = Math.Sqrt(newArr46[0] * newArr46[0] * newArr46[2] / 100);
+    double resultY = newS / resultX;
+    WriteResult($"width of image", $"{resultX:F2}", 0);
+    WriteResult($"heigth of image", $"{resultY:F2}", 0);
+}
+void Programm047()
+{
+    string[] star47 = { "Написать программу копирования массива", "default", "Int32" };
+    string[] currArr47 = { "-45", "12" };
+    Start(star47, ref currArr47);
+    PrintArrayIntoConsole(currArr47, 0);
+    string[] newArr47 = new string[currArr47.Length];
+    Array.Copy(currArr47, newArr47, currArr47.Length);
+    WriteResult("new array", StringResult(newArr47), 0);
+}
+//
 // Main
 // Console.WriteLine("Введите свое имя");
 // var name = Console.ReadLine()!;
