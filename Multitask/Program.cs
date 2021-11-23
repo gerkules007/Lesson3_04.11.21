@@ -279,7 +279,7 @@ void InputData(string[] inputArr, string tool)
                         conduction = false;
                         break;
                     case "DOUBLE":
-                        conduction = !(Double.TryParse(inputdata, out double outnumber));
+                        conduction = !(Double.TryParse(inputdata, out double outnumber1));
                         break;
                     case "INT32":
                         conduction = !(Int32.TryParse(inputdata, out int outnumber2));
@@ -473,31 +473,7 @@ void PrintArrayIntoConsole(string[] printarr, int printset)
 
 void Programm000()
 {
-    // string[] settings = { "Тестовая проверка методов", "ENTER", "INT32" };
-    // string[] Arr0 = { "Введите первое число", "Введите второе число" };
-    // Start(settings, Arr0);
-    // PrintArrayIntoConsole(Arr0, 0);
-    // Console.ReadKey();
-    // string[] settings1 = { "Тестовая проверка методов", "RANDOM", "INT32" };
-    // string[] Arr1 = { "Введите минимальные значения", "Введите максимальные значения", "Введите количество" };
-    // Start(settings, Arr1);
-    // PrintArrayIntoConsole(Arr1, 0);
-    // Console.ReadKey();
-    // string[] settings2 = { "Приветствие", "RANDOM", "INT32" };
-    // string[] Arr2 = { "10", "15", "10" };
-    // Start(settings, Arr2);
-    // PrintArrayIntoConsole(Arr2, 0);
-    // Console.ReadKey();
-    // string[] settings3 = { "Приветствие", "DEFAULT", "INT32" };
-    // string[] Arr3 = { "10", "15", "10", "15", "10" };
-    // Start(settings, Arr3);
-    // PrintArrayIntoConsole(Arr3, 0);
-    // Console.ReadKey();
-    // string[] settings4 = { "Приветствие", "IMPORT", "PLACE" };
-    // string[] Arr4 = { "Введите путь" };
-    // Start(settings, Arr4);
-    // PrintArrayIntoConsole(Arr4, 0);
-    // Console.ReadKey();
+    
     // string[] settings5 = { "Приветствие", "IMPORT", "PLACE" };
     // string[] Arr5 = { @"C:\Users\ovcse\Desktop\РАЗРАБОТЧИК\СЕМИНАРЫ\in CS\Lesson4\17.txt" };
     // Start(settings, Arr5);
@@ -513,7 +489,7 @@ void Programm018()
 {
     string[] start18 = { "Проверить истинность утверждения ¬(X ⋁ Y) = ¬X ⋀ ¬Y", "Enter", "string" };
     string[] currArr18 = { "Введите первое условие", "Введите второе условие" };
-    
+
     bool bone = ToBoolean(currArr18, 0);
     bool btwo = ToBoolean(currArr18, 1);
     if ((!(bone || btwo)) == (!bone && !btwo)) Console.WriteLine($"Выражение (!( x || y)) истинно к (!x && !y)");
