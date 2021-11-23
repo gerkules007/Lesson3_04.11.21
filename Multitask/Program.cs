@@ -681,6 +681,7 @@ void Programm033()
     string[] start33 = {"Задать массив из 12 элементов, заполненных числами из [-9 ,9]. Найти сумму положительных/отрицательных элементов массива", "Random", "Int32"};
     string[] currArr33 = { "-9", "9", "12"};
     Start(start33, ref currArr33);
+
     int summPositiv33 = 0, summNegative33 = 0;
     int numbArr33 = 0;
     foreach (string numb33 in currArr33) 
@@ -693,20 +694,66 @@ void Programm033()
     WriteResult("Negative", $"{summNegative33}", 0);
 }
 
+void Programm034()
+{
+    string[] start34 = {"Написать программу замену элементов массива на противоположные", "Random", "Int32range"};
+    string[] currArr34 = { "-100", "100", "15"};
+    Start(start34, ref currArr34);
+
+    Console.WriteLine($"Созданный массив: {StringResult(currArr34)}");
+    for (int i = 0, leng = currArr34.Length, temp; i < leng; i++)
+    {
+        temp = Convert.ToInt32(currArr34[i]);
+        currArr34[i] = Convert.ToString(temp * (-1));
+    }
+    WriteResult("opposite", StringResult(currArr34), 0);
+}
+
 void Programm035()
 {
-    // Default tool: 1. Данные задаем сами или случайно, Данные даны или их нужно вводить
-    string[] start35 = { "Определить присутствует ли в заданном массиве некоторое число", "Random", "Int32" };
-    string[] newArr35 = { "Введите минимальные значения", "Введите максимальные значения", "Введите количество" };
+    string[] start35 = { "Определить присутствует ли в заданном массиве некоторое число", "Random", "Int32range" };
+    string[] currArr35 = { "Введите минимальные значения", "Введите максимальные значения", "Введите количество" };
     string[] findArr35 = { "Find number" };
-    Start(start35, ref newArr35);
+    Start(start35, ref currArr35);
     InputData(findArr35, "Int32");
+
     string find35 = findArr35[0];
     string result = "Not found";
     for (int i = 0; i < findArr35.Length; i++) if (findArr35[i] == find35) result = $" Это число присутствует, находится {i + 1} по порядку";
     Console.WriteLine(result);
 }
 
+void Programm036()
+{
+    string[] start36 = { "Задать массив, заполнить случайными положительными трёхзначными числами. Показать количество нечетных/четных чисел", "Random", "Int32range,3" };
+    string[] currArr36 = { "Введите минимальные значения", "Введите максимальные значения", "Введите количество" };
+    Start(start36, ref currArr36);
+    int even36 = 0, uneven36 = 0;
+    for (int i = 0, leng = currArr36.Length; i < leng; i++)
+    {
+        if (Convert.ToInt32(currArr36[i]) % 2 == 0) even36++;
+        else uneven36++;
+    }
+    WriteResult("even", $"{even36}", 0);
+    WriteResult("uneven", $"{uneven36}", 0);
+}
+
+void Programm037()
+{
+    string[] start37 = { "В одномерном массиве из 123 чисел найти количество элементов из отрезка [10,99]", "Random", "Int32range" };
+    string[] currArr37 = { "Введите минимальные значения", "Введите максимальные значения", "123" };
+    int[] settings37 = { 10 , 99 };
+    Start(start37, ref currArr37);
+
+    int count37 = 0;
+    int min = settings37[0], max = settings37[1], temp = 0;
+    foreach (string s in currArr37)
+    {
+        temp = Convert.ToInt32(s);
+        if (min <= temp && max >= temp) count37++;
+    }
+    WriteResult($"count element of [{min};{max}]", $"{count37}", 0);
+}
 
 
 // Main
