@@ -37,14 +37,15 @@ void Enterprogram()
 {
     Console.WriteLine("Чтобы вызвать помощь в строке введите 'h'");
     Console.WriteLine();
-    System.Threading.Thread.Sleep(1000);
+    System.Threading.Thread.Sleep(500);
     bool exit = false;
-
     while (exit == false)
     {
+        Console.Clear();
         string comm = String.Empty;
         string[] command = { "Введите команду" };
         InputData(command, "string");
+        
         bool check = int.TryParse(command[0], out int number);
         if (check == false) comm = command[0].ToUpper();
         switch (check)
@@ -58,7 +59,7 @@ void Enterprogram()
                 System.Threading.Thread.Sleep(400);
                 Console.Write(".");
                 Console.WriteLine();
-                do 
+                do
                 {
                     System.Threading.Thread.Sleep(500);
                     ChooseProgramm(command[0]);
@@ -125,6 +126,15 @@ void ChooseProgramm(string task)
         case "28":
             Programm027028();
             break;
+        case "29":
+            Programm029();
+            break;
+        case "30":
+            Programm030();
+            break;
+        case "35":
+            Programm035();
+            break;
         default:
             Console.WriteLine("Такой задачи не существует, попробуйте еще раз");
             break;
@@ -153,7 +163,7 @@ string[] settings = {"Приветствие", "Import", "String"};
 string[] newArr = {"E\"};
 
 */
-void Start(string[] inputSet, string[] inputArr)
+void Start(string[] inputSet, ref string[] inputArr)
 {
     Console.Clear();
     Console.WriteLine(inputSet[0]);
@@ -161,14 +171,16 @@ void Start(string[] inputSet, string[] inputArr)
     int lengSet = inputSet.Length;
     int lengNew = inputArr.Length;
     bool inputresult = Double.TryParse(inputArr[0], out double outnumb);
-    switch (inputSet[1])
+    string set = inputSet[1].ToUpper();
+    switch (set)
     {
         case "RANDOM":
             if (!inputresult) InputData(inputArr, inputSet[2]);
-            Random(inputArr);
+            Random(ref inputArr);
             break;
         case "ENTER":
-            InputData(inputArr, inputSet[2]);
+            if (int.TryParse(inputArr[0], out int outnumb1)) CreateArrayRangeInt32(ref inputArr);
+            else InputData(inputArr, inputSet[2]);
             break;
         case "IMPORT":
             if (FindSymbol(inputArr[0], ':', out int pos) && pos == 3) InputData(inputArr, inputSet[2]);
@@ -182,7 +194,7 @@ void Start(string[] inputSet, string[] inputArr)
     }
 }
 
-void Random(string[] inputArr)
+void Random(ref string[] inputArr)
 {
     bool boolMinVal = Int32.TryParse(inputArr[0], out int outnumber1);
     bool boolMaxVal = Int32.TryParse(inputArr[1], out int outnumber2);
@@ -193,7 +205,7 @@ void Random(string[] inputArr)
         int minVal = Convert.ToInt32(inputArr[0]);
         int maxVal = Convert.ToInt32(inputArr[1]);
         Array.Resize(ref inputArr, countNewArr);
-        if (maxVal == 0 || maxVal == minVal) maxVal = minVal + 1;
+        if (maxVal == minVal) maxVal = minVal + 1;
         for (int i = 0; i < countNewArr; i++) inputArr[i] = Convert.ToString(rand.Next(minVal, maxVal));
     }
     else
@@ -251,7 +263,7 @@ void InputData(string[] inputArr, string tool)
         bool conduction = false;
         do
         {
-            do 
+            do
             {
                 Console.WriteLine(inputArr[inputI]);
                 inputdata = Console.ReadLine()!;
@@ -272,6 +284,9 @@ void InputData(string[] inputArr, string tool)
                 case "INT64":
                     conduction = !(Int64.TryParse(inputdata, out long outnumber3));
                     break;
+                case "INT32RANGE":
+                    conduction = !(Int32.TryParse(inputdata, out int outnumber4) && outnumber4 < int.MaxValue/2 && outnumber4 > int.MinValue/2);
+                    break;    
                 case "PLACE":
                     conduction = !(FindSymbol(inputArr[inputI], '.', out int c));
                     inputdata = "@" + $"{inputdata}";
@@ -389,6 +404,15 @@ void CreateArrayDoubleRange(double[] doubleArray, string minCount, string maxCou
     for (int iCAI = 1; iCAI < doubleArray.Length; iCAI++) doubleArray[iCAI] += CountIndex;
 }
 
+void CreateArrayRangeInt32(ref string[] inputArr)
+{
+    int minCAI = Convert.ToInt32(inputArr[0]);
+    int maxCAI = Convert.ToInt32(inputArr[1]);
+    int RangeIndex = Convert.ToInt32(maxCAI - minCAI);
+    Array.Resize(ref inputArr, RangeIndex);
+    for (uint iCAI = 0; iCAI < inputArr.Length; iCAI++) inputArr[iCAI] = Convert.ToString(minCAI++);
+}
+
 string CreateStringAsArray(double[] doubleArr)
 {
     string newString = String.Empty;
@@ -425,6 +449,11 @@ string[] MakeStringToStringArray(string separateArr, char separateChar)
     return newSA;
 }
 
+string StringResult(string[] printarr)
+{
+    return string.Join(" ", printarr);
+}
+
 void PrintArrayIntoConsole(string[] printarr, int printset)
 {
     switch (printset)
@@ -440,36 +469,36 @@ void PrintArrayIntoConsole(string[] printarr, int printset)
 
 void Programm000()
 {
-    string[] settings = { "Тестовая проверка методов", "ENTER", "INT32" };
-    string[] Arr0 = { "Введите первое число", "Введите второе число" };
-    Start(settings, Arr0);
-    PrintArrayIntoConsole(Arr0, 0);
-    Console.ReadKey();
-    string[] settings1 = { "Тестовая проверка методов", "RANDOM", "INT32" };
-    string[] Arr1 = { "Введите минимальные значения", "Введите максимальные значения", "Введите количество" };
-    Start(settings, Arr1);
-    PrintArrayIntoConsole(Arr1, 0);
-    Console.ReadKey();
-    string[] settings2 = { "Приветствие", "RANDOM", "INT32" };
-    string[] Arr2 = { "10", "15", "10" };
-    Start(settings, Arr2);
-    PrintArrayIntoConsole(Arr2, 0);
-    Console.ReadKey();
-    string[] settings3 = { "Приветствие", "DEFAULT", "INT32" };
-    string[] Arr3 = { "10", "15", "10", "15", "10" };
-    Start(settings, Arr3);
-    PrintArrayIntoConsole(Arr3, 0);
-    Console.ReadKey();
-    string[] settings4 = { "Приветствие", "IMPORT", "PLACE" };
-    string[] Arr4 = { "Введите путь" };
-    Start(settings, Arr4);
-    PrintArrayIntoConsole(Arr4, 0);
-    Console.ReadKey();
-    string[] settings5 = { "Приветствие", "IMPORT", "PLACE" };
-    string[] Arr5 = { @"C:\Users\ovcse\Desktop\РАЗРАБОТЧИК\СЕМИНАРЫ\in CS\Lesson4\17.txt" };
-    Start(settings, Arr5);
-    Console.WriteLine(Arr5[0][0] + Arr5[0][1] + Arr5[0][2]);
-    Console.ReadKey();
+    // string[] settings = { "Тестовая проверка методов", "ENTER", "INT32" };
+    // string[] Arr0 = { "Введите первое число", "Введите второе число" };
+    // Start(settings, Arr0);
+    // PrintArrayIntoConsole(Arr0, 0);
+    // Console.ReadKey();
+    // string[] settings1 = { "Тестовая проверка методов", "RANDOM", "INT32" };
+    // string[] Arr1 = { "Введите минимальные значения", "Введите максимальные значения", "Введите количество" };
+    // Start(settings, Arr1);
+    // PrintArrayIntoConsole(Arr1, 0);
+    // Console.ReadKey();
+    // string[] settings2 = { "Приветствие", "RANDOM", "INT32" };
+    // string[] Arr2 = { "10", "15", "10" };
+    // Start(settings, Arr2);
+    // PrintArrayIntoConsole(Arr2, 0);
+    // Console.ReadKey();
+    // string[] settings3 = { "Приветствие", "DEFAULT", "INT32" };
+    // string[] Arr3 = { "10", "15", "10", "15", "10" };
+    // Start(settings, Arr3);
+    // PrintArrayIntoConsole(Arr3, 0);
+    // Console.ReadKey();
+    // string[] settings4 = { "Приветствие", "IMPORT", "PLACE" };
+    // string[] Arr4 = { "Введите путь" };
+    // Start(settings, Arr4);
+    // PrintArrayIntoConsole(Arr4, 0);
+    // Console.ReadKey();
+    // string[] settings5 = { "Приветствие", "IMPORT", "PLACE" };
+    // string[] Arr5 = { @"C:\Users\ovcse\Desktop\РАЗРАБОТЧИК\СЕМИНАРЫ\in CS\Lesson4\17.txt" };
+    // Start(settings, Arr5);
+    // Console.WriteLine(Arr5[0][0] + Arr5[0][1] + Arr5[0][2]);
+    // Console.ReadKey();
 
     // int j0 = 0;
     // if (CheckConditionForNumb(arr0[j0], arr0[j0 + 1], 1)) Console.WriteLine($"Число {arr0[0]} меньше числа {arr0[1]}");
@@ -677,38 +706,35 @@ void Programm027028()
 
 void Programm029()
 {
-    Console.WriteLine("Написать программу вычисления чисел от 1 до N");
-    System.Threading.Thread.Sleep(2000);
-    string[] arr29 = { "Number" };
-    InputData(arr29, "Int32");
-    string start29 = "1";
-
-
-
+    string[] start29 = { "Написать программу вычисления чисел от 1 до N", "Enter", "int32range" };
+    string[] currArr29 = {"1", "327"};
+    Start(start29, ref currArr29);
+    WriteResult($"{currArr29.Length}", StringResult(currArr29), 0);
 }
 
 void Programm030()
 {
-    Console.WriteLine("Показать кубы чисел, заканчивающихся на четную цифру");
-    double[] arr30 = new double[10];
-    Random rand = new Random();
-    foreach (int numb in arr30)
-        for (int i = 0; i < arr30.Length; i++) if (arr30[i] % 2 == 0) Console.WriteLine(Math.Pow(arr30[i], 3));
+    string[] start30 = { "Показать кубы чисел, заканчивающихся на четную цифру", "Random", "Double" };
+    string[] currArr30 = {"-5","5","10"};
+    Start(start30, ref currArr30);
+    PrintArrayIntoConsole(currArr30, 0);
+    double[] newArr30 = ToDoubleArray(currArr30);
+    Console.WriteLine("Результат для нахождения кубов чисел");
+    for (int i = 0; i < newArr30.Length; i++) if (Math.Pow(newArr30[i], 3) % 2 == 0) Console.Write($"{Math.Pow(newArr30[i], 3)} ");
 }
 
 void Programm035()
 {
     // Default tool: 1. Данные задаем сами или случайно, Данные даны или их нужно вводить
     string[] start35 = { "Определить присутствует ли в заданном массиве некоторое число", "Random", "Int32" };
-    string[] newArr35 = { "Find Number" };
-    Start(start35, newArr35);
-    string find35 = newArr35[0];
+    string[] newArr35 = { "Введите минимальные значения", "Введите максимальные значения", "Введите количество" };
+    string[] findArr35 = { "Find number" };
+    Start(start35, ref newArr35);
+    InputData(findArr35, "Int32");
+    string find35 = findArr35[0];
     string result = "Not found";
-    for (int i = 0; i < newArr35.Length; i++) if (newArr35[i] == find35) result = "Присутствует, его номер ";
-    // Для работы с заданным массивом необходимо: определить что это будет за массив -> Сами вводить, он будет создан нами или он будет откуда-то импортироваться
-    // Random - справшивает мы вводим сами данные для массива или используем стандартые, создаем массив
-    // 
-
+    for (int i = 0; i < findArr35.Length; i++) if (findArr35[i] == find35) result = $" Это число присутствует, находится {i + 1} по порядку";
+    Console.WriteLine(result);
 }
 
 
