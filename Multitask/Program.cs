@@ -278,7 +278,7 @@ void InputData(string[] inputArr, string tool)
                     Console.WriteLine(inputArr[inputI]);
                     inputdata = Console.ReadLine()!;
                 }
-                while (!(String.IsNullOrEmpty(inputdata) ^ GetIntergerNumericalPosition(inputdata) <= countOrder));
+                while (String.IsNullOrEmpty(inputdata) || !(GetIntergerNumericalPosition(inputdata) <= countOrder));
 
                 switch (toolUpper)
                 {
@@ -398,13 +398,7 @@ int[] ToIntArrayFromString(string inputStr)
     }
     return outputArr;
 }
-// double[] CreateArrayDouble(string[] array1)
-// {
-//     double[] array2 = { -1 };
-//     int count = array1.Length;
-//     Array.Resize(ref array2, count);
-//     return array2;
-// }
+
 double Fibonacci(double n)
 {
     if (n == 1 || n == 2) return 1;
