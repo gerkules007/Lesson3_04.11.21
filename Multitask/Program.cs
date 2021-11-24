@@ -475,6 +475,40 @@ void PrintArrayIntoConsole(string[] printarr, int printset)
     }
 }
 
+int[,] Int2DArray(string[] inputArr, string toolArr)
+{
+    int[,] newArr = new int[Convert.ToInt32(inputArr[0]),Convert.ToInt32(inputArr[1])];
+    int min2D = Convert.ToInt32(inputArr[2]);
+    int max2D = Convert.ToInt32(inputArr[3]) + 1;
+    double result = 0;
+    Random rand = new Random();
+    for (int i = 0; i < newArr.GetLength(0); i++)
+    {
+        for (int j = 0; j < newArr.GetLength(1); j++)
+        {
+            newArr[i,j] = rand.Next(min2D, max2D);
+            OperationIntoArray(newArr[i,j], ref result, toolArr);
+        }
+    }
+    return newArr;
+}
+
+void OperationIntoArray(int cellArray, ref double operationN, string toolArr)
+{
+    switch(toolArr)
+    {
+        case "+":
+            operationN += cellArray;
+            break;
+        case "-":
+            operationN -= cellArray;
+            break;
+        case "*":
+            operationN *= cellArray;
+            break;
+    }   
+}
+
 void Programm000()
 {
 
