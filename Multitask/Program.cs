@@ -40,7 +40,7 @@ void Enterprogram()
                 System.Threading.Thread.Sleep(400);
                 Console.Write(".");
                 Console.WriteLine();
-                string[] newProgram = {"Запустить заново? Y/N"};
+                string[] newProgram = { "Запустить заново? Y/N" };
                 do
                 {
                     System.Threading.Thread.Sleep(500);
@@ -164,6 +164,9 @@ void ChooseProgramm(string task)
             break;
         case "47":
             Programm047();
+            break;
+        case "48":
+            Programm048();
             break;
         default:
             Console.WriteLine("Такой задачи не существует, попробуйте еще раз");
@@ -475,27 +478,26 @@ void PrintArrayIntoConsole(string[] printarr, int printset)
     }
 }
 
-int[,] Int2DArray(string[] inputArr, string toolArr)
+void Int2DArray(string[] inputArr, string[] toolArr, out int[,] newArr, out double[] result)
 {
-    int[,] newArr = new int[Convert.ToInt32(inputArr[0]),Convert.ToInt32(inputArr[1])];
+    newArr = new int[Convert.ToInt32(inputArr[0]), Convert.ToInt32(inputArr[1])];
     int min2D = Convert.ToInt32(inputArr[2]);
     int max2D = Convert.ToInt32(inputArr[3]) + 1;
-    double result = 0;
+    result = new double[toolArr.Length];
     Random rand = new Random();
     for (int i = 0; i < newArr.GetLength(0); i++)
     {
         for (int j = 0; j < newArr.GetLength(1); j++)
         {
-            newArr[i,j] = rand.Next(min2D, max2D);
-            OperationIntoArray(newArr[i,j], ref result, toolArr);
+            newArr[i, j] = rand.Next(min2D, max2D);
+            for (int k = 0; k < toolArr.Length; k++) OperationIntoArray(newArr[i, j], ref result[k], toolArr[k]);
         }
     }
-    return newArr;
 }
 
 void OperationIntoArray(int cellArray, ref double operationN, string toolArr)
 {
-    switch(toolArr)
+    switch (toolArr)
     {
         case "+":
             operationN += cellArray;
@@ -504,9 +506,19 @@ void OperationIntoArray(int cellArray, ref double operationN, string toolArr)
             operationN -= cellArray;
             break;
         case "*":
+            if (operationN == 0) operationN = 1;
             operationN *= cellArray;
             break;
-    }   
+    }
+}
+
+void Print2DArray(int[,] newArr)
+{
+    for (int i = 0; i < newArr.GetLength(0); i++)
+    {
+        for (int j = 0; j < newArr.GetLength(1); j++) Console.Write("   {0}", newArr[i, j]);
+        Console.WriteLine();
+    }
 }
 
 void Programm000()
@@ -528,8 +540,8 @@ void Programm018()
     string[] start18 = { "Проверить истинность утверждения ¬(X ⋁ Y) = ¬X ⋀ ¬Y", "Enter", "string" };
     string[] currArr18 = { "Введите первое условие", "Введите второе условие" };
     Start(start18, ref currArr18);
-    
-    if (!(ToBoolean(currArr18[0]) ||  ToBoolean(currArr18[1])) == (!ToBoolean(currArr18[0]) && !ToBoolean(currArr18[1]))) Console.WriteLine($"Выражение (!( x || y)) истинно к (!x && !y)");
+
+    if (!(ToBoolean(currArr18[0]) || ToBoolean(currArr18[1])) == (!ToBoolean(currArr18[0]) && !ToBoolean(currArr18[1]))) Console.WriteLine($"Выражение (!( x || y)) истинно к (!x && !y)");
     else { Console.WriteLine($"Выражение (!( x || y)) ложно к (!x && !y)"); }
 }
 
@@ -917,6 +929,17 @@ void Programm047()
     string[] newArr47 = new string[currArr47.Length];
     Array.Copy(currArr47, newArr47, currArr47.Length);
     WriteResult("new array", StringResult(newArr47), 0);
+}
+
+void Programm048()
+{
+    string[] star48 = { "Написать программу копирования массива", "Random", "Int32" };
+    string[] currArr48 = { "2", "2", "0", "100" };
+    string[] toolArr48 = { "+", "*" };
+    Int2DArray(currArr48, toolArr48, out int[,] Arr2D, out double[] result48);
+    Print2DArray(Arr2D);
+    WriteResult("summ", $"{result48[0]}", 0);
+    WriteResult("multiplication", $"{result48[1]}", 0);
 }
 //
 // Main
