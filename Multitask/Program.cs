@@ -40,13 +40,14 @@ void Enterprogram()
                 System.Threading.Thread.Sleep(400);
                 Console.Write(".");
                 Console.WriteLine();
+                string[] newProgram = {"Запустить заново? Y/N"};
                 do
                 {
                     System.Threading.Thread.Sleep(500);
                     ChooseProgramm(command[0]);
                     Console.WriteLine();
-                    Console.WriteLine("Запустить заново? Y/N");
-                } while (Console.ReadKey(true).Key != ConsoleKey.N);
+                    InputData(newProgram, "String");
+                } while (ToBoolean(newProgram[0]));
                 break;
             case false:
                 switch (comm)
@@ -339,12 +340,10 @@ bool CheckConditionForNumb(string c1, string c2, int Ncompare)
     return CC;
 }
 
-bool ToBoolean(string[] arr, int index)
+bool ToBoolean(string input)
 {
-    string input = arr[index];
-    string[] trueStrings = { "1", "y", "yes", "true", "t", "верно" };
-    string[] falseStrings = { "0", "n", "no", "false", "f", "не верно" };
-
+    string[] trueStrings = { "1", "y", "yes", "true", "t", "верно", "д", "da", "d", "истина" };
+    string[] falseStrings = { "0", "n", "no", "false", "f", "не верно", "н", "net", "ложь" };
 
     if (trueStrings.Contains(input.ToLower(), StringComparer.OrdinalIgnoreCase))
         return true;
@@ -494,10 +493,9 @@ void Programm018()
 {
     string[] start18 = { "Проверить истинность утверждения ¬(X ⋁ Y) = ¬X ⋀ ¬Y", "Enter", "string" };
     string[] currArr18 = { "Введите первое условие", "Введите второе условие" };
-
-    bool bone = ToBoolean(currArr18, 0);
-    bool btwo = ToBoolean(currArr18, 1);
-    if ((!(bone || btwo)) == (!bone && !btwo)) Console.WriteLine($"Выражение (!( x || y)) истинно к (!x && !y)");
+    Start(start18, ref currArr18);
+    
+    if (!(ToBoolean(currArr18[0]) ||  ToBoolean(currArr18[1])) == (!ToBoolean(currArr18[0]) && !ToBoolean(currArr18[1]))) Console.WriteLine($"Выражение (!( x || y)) истинно к (!x && !y)");
     else { Console.WriteLine($"Выражение (!( x || y)) ложно к (!x && !y)"); }
 }
 
