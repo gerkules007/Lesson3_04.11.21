@@ -168,6 +168,18 @@ void ChooseProgramm(string task)
         case "48":
             Programm048();
             break;
+        case "49":
+            Programm049();
+            break;
+        case "50":
+            Programm050();
+            break;
+        case "51":
+            Programm051();
+            break;
+        case "52":
+            Programm052();
+            break;
         default:
             Console.WriteLine("Такой задачи не существует, попробуйте еще раз");
             break;
@@ -336,6 +348,12 @@ bool CheckConditionForNumb(string c1, string c2, int Ncompare)
         case 4:
             CC = nc1 == nc2 ? true : false;
             break;
+        case 5:
+            CC = nc1 % nc2 == 0 ? true : false;
+            break;
+        case 6:
+            CC = nc1 > nc2 ? true : false;
+            break;
         default:
             Console.WriteLine("Uncorrect indentify CheckCondition Method. Check correct condition.");
             break;
@@ -478,48 +496,41 @@ void PrintArrayIntoConsole(string[] printarr, int printset)
     }
 }
 
-void Int2DArray(string[] inputArr, string[] toolArr, out int[,] newArr, out double[] result)
+void Int2DArray(string[] inputArr, out int[,] newArr)
 {
     newArr = new int[Convert.ToInt32(inputArr[0]), Convert.ToInt32(inputArr[1])];
     int min2D = Convert.ToInt32(inputArr[2]);
     int max2D = Convert.ToInt32(inputArr[3]) + 1;
-    result = new double[toolArr.Length];
     Random rand = new Random();
     for (int i = 0; i < newArr.GetLength(0); i++)
     {
         for (int j = 0; j < newArr.GetLength(1); j++)
         {
             newArr[i, j] = rand.Next(min2D, max2D);
-            for (int k = 0; k < toolArr.Length; k++) OperationIntoArray(newArr[i, j], ref result[k], toolArr[k]);
         }
     }
 }
 
-void OperationIntoArray(int cellArray, ref double operationN, string toolArr)
+void FrameworkTo2DArray(string intro, out List<double> result, int numbOfTask)
 {
-    switch (toolArr)
-    {
-        case "+":
-            operationN += cellArray;
-            break;
-        case "-":
-            operationN -= cellArray;
-            break;
-        case "*":
-            if (operationN == 0) operationN = 1;
-            operationN *= cellArray;
-            break;
-    }
+    string[] start = { intro, "Enter", "Int32" };
+    string[] currArr = { "4", "4", "0", "10" };
+    result = new List<double>();
+    Start(start, ref currArr);
+    Int2DArray(currArr, out int[,] Arr2D);
+    Print2DArray(Arr2D);
+    ForProgramm2DArr(Arr2D, result, numbOfTask);
 }
 
 void Print2DArray(int[,] newArr)
 {
     for (int i = 0; i < newArr.GetLength(0); i++)
     {
-        for (int j = 0; j < newArr.GetLength(1); j++) Console.Write("   {0}", newArr[i, j]);
+        for (int j = 0; j < newArr.GetLength(1); j++) Console.Write("{0}   ", newArr[i, j]);
         Console.WriteLine();
     }
 }
+
 
 void Programm000()
 {
@@ -931,16 +942,105 @@ void Programm047()
     WriteResult("new array", StringResult(newArr47), 0);
 }
 
+void ForProgramm2DArr(int[,] inputArr, List<double> result, int numbOfTask)
+{
+    switch (numbOfTask)
+    {
+        case 0 | 1:
+            result.Add(0);
+            result.Add(1);
+            break;
+        case 2:
+            result.Add(0);
+            result.Add(1);
+            break;
+        case 3:
+            result.Add(0);
+            break;
+    }
+    for (int i = 0; i < inputArr.GetLength(0); i++)
+    {
+        for (int j = 0; j < inputArr.GetLength(1); j++)
+        {
+            switch (numbOfTask)
+            {
+                case 0:
+                    result[0] += inputArr[i, j];
+                    result[1] *= inputArr[i, j];
+                    break;
+                case 1:
+                    if (inputArr[i, j] % 2 == 0)
+                    {
+                        result[0] += inputArr[i, j];
+                        result[1] *= inputArr[i, j];
+                    }
+                    break;
+                case 2:
+                    if (inputArr[i, j] % 3 == 0 && inputArr[i, j] % 5 == 0)
+                    {
+                        result[0] += inputArr[i, j];
+                        result[1] *= inputArr[i, j];
+                    }
+                    break;
+                case 3:
+                    if (inputArr[i, j] > -9 && inputArr[i, j] < 0)
+                    {
+                        result[0]++;
+                    }
+                    break;
+                case 4:
+                    if (i % 2 != 0 && j % 2 != 0 && inputArr[i, j] % 2 != 0)
+                    {
+                        result.Add(i+1);
+                        result.Add(j+1);
+                    }
+                    break;
+            }
+        }
+    }
+}
+
 void Programm048()
 {
-    string[] star48 = { "Написать программу копирования массива", "Random", "Int32" };
-    string[] currArr48 = { "2", "2", "0", "100" };
-    string[] toolArr48 = { "+", "*" };
-    Int2DArray(currArr48, toolArr48, out int[,] Arr2D, out double[] result48);
-    Print2DArray(Arr2D);
-    WriteResult("summ", $"{result48[0]}", 0);
-    WriteResult("multiplication", $"{result48[1]}", 0);
+    string start48 = "Дан целочисленный двумерный массив, размерности n х m. Найти сумму и произведение всех элементов массива.";
+    FrameworkTo2DArray(start48, out List<double> resultArr48, 0);
+    WriteResult("summ", $"{resultArr48[0]}", 0);
+    WriteResult("multiplication", $"{resultArr48[1]}", 0);
 }
+
+void Programm049()
+{
+    string start49 = "Дан целочисленный двумерный массив, размерности n х m. Найти сумму и произведение четных элементов.";
+    FrameworkTo2DArray(start49, out List<double> resultArr49, 1);
+    WriteResult("summ", $"{resultArr49[0]}", 0);
+    WriteResult("multiplication", $"{resultArr49[1]}", 0);
+}
+
+void Programm050()
+{
+    string start50 = "Дан целочисленный двумерный массив, размерности n х m. Найти сумму и произведение элементов, кратных 3 и 5.";
+    FrameworkTo2DArray(start50, out List<double> resultArr50, 2);
+    WriteResult("summ", $"{resultArr50[0]}", 0);
+    WriteResult("multiplication", $"{resultArr50[1]}", 0);
+}
+
+void Programm051()
+{
+    string start51 = "Дан целочисленный двумерный массив, размерности n х m. Найти количество отрицательных элементов, больше -9.";
+    FrameworkTo2DArray(start51, out List<double> resultArr51, 3);
+    WriteResult("count of elements > -9", $"{resultArr51[0]}", 0);
+}
+
+void Programm052()
+{
+    string start52 = "Дан целочисленный двумерный массив, размерности n х m. Найти номера нечетных элементов, стоящих на четных местах. ";
+    FrameworkTo2DArray(start52, out List<double> resultArr52, 4);
+    WriteResult("not even numbs on even", "", 0);
+    for (int i = 1; i < resultArr52.Count; i += 2) { Console.Write("[{0}, {1}]", resultArr52[i - 1], resultArr52[i]); Console.WriteLine(); }
+}
+
+
+
 //
 // Main
 // Console.WriteLine("Введите свое имя");
