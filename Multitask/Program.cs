@@ -180,6 +180,30 @@ void ChooseProgramm(string task)
         case "52":
             Programm052();
             break;
+        case "53":
+            Programm053();
+            break;
+        case "54":
+            Programm054();
+            break;
+        case "57":
+            Programm057();
+            break;
+        case "58":
+            Programm058();
+            break;
+        case "64":
+            Programm064();
+            break;
+        case "65":
+            Programm065();
+            break;
+        case "66":
+            Programm066();
+            break;
+        case "67":
+            Programm067();
+            break;
         default:
             Console.WriteLine("Такой задачи не существует, попробуйте еще раз");
             break;
@@ -511,15 +535,25 @@ void Int2DArray(string[] inputArr, out int[,] newArr)
     }
 }
 
-void FrameworkTo2DArray(string intro, out List<double> result, int numbOfTask)
+int[,] FrameworkTo2DArray(string intro)
 {
     string[] start = { intro, "Enter", "Int32" };
-    string[] currArr = { "4", "4", "0", "10" };
-    result = new List<double>();
+    string[] currArr = { "5", "5", "0", "10" };
     Start(start, ref currArr);
     Int2DArray(currArr, out int[,] Arr2D);
     Print2DArray(Arr2D);
-    ForProgramm2DArr(Arr2D, result, numbOfTask);
+    return Arr2D;
+}
+
+List<double> FrameworkTo2DArray2(string intro, string[] currArr, int toolTask, out int[,] Arr2D)
+{
+    string[] start = { intro, "Enter", "Int32" };
+    List<double> resultArr = new List<double>();
+    Start(start, ref currArr);
+    Int2DArray(currArr, out Arr2D);
+    Print2DArray(Arr2D);
+    ForProgramm2DArr(Arr2D, resultArr, toolTask);
+    return resultArr;
 }
 
 void Print2DArray(int[,] newArr)
@@ -827,15 +861,15 @@ void Programm038()
 void Programm039()
 {
     string[] start39 = { "Найти произведение пар чисел в одномерном массиве. Парой считаем первый и последний элемент, второй и предпоследний и т.д.", "default", "Int32" };
-    string[] currArr39 = { "-100", "100" };
+    string[] currArr39 = { "0", "10" };
     Start(start39, ref currArr39);
-    int center39 = (int)Math.Floor(Convert.ToDouble(currArr39.Length / 2));
+    int center39 = currArr39.Length / 2;
     string[] newArr39 = new string[center39];
     if (currArr39.Length % 2 == 0)
     {
         for (int i = 0, j = currArr39.Length - 1; i < center39; i++, j--)
         {
-            newArr39[i] = newArr39[i] = Convert.ToString(Convert.ToInt32(currArr39[i]) * Convert.ToInt32(currArr39[j]));
+            newArr39[i] = Convert.ToString(Convert.ToInt32(currArr39[i]) * Convert.ToInt32(currArr39[j]));
         }
     }
     else
@@ -875,17 +909,49 @@ void Programm041()
 void Programm042()
 {
     string[] start42 = { "Определить сколько чисел больше 0 введено с клавиатуры", "Enter", "Int32" };
-    string[] currArr42 = { "Введите количество попыток ввода" };
-    Start(start42, ref currArr42);
-    int leng42 = Convert.ToInt32(currArr42[0]);
-    int count42 = 0;
-    for (int i42 = 0; i42 < leng42; i42++)
+    Console.WriteLine(start42[0]);
+    // string[] currArr42 = { "Введите количество попыток ввода" };
+    // Start(start42, ref currArr42);
+    // int leng42 = Convert.ToInt32(currArr42[0]);
+    // int count42 = 0;
+    // for (int i42 = 0; i42 < leng42; i42++)
+    // {
+    //     string[] textArr42 = { "Введите число" };
+    //     InputData(textArr42, "Int32");
+    //     if (Convert.ToInt32(textArr42[0]) > 0) count42++;
+    // }
+    // WriteResult("numbers > 0 from keyboard", $"{count42}", 0);
+
+    int CountInputNumbers(List<double> inputList)
     {
-        string[] textArr42 = { "Введите число" };
-        InputData(textArr42, "Int32");
-        if (Convert.ToInt32(textArr42[0]) > 0) count42++;
+        return Convert.ToInt32(inputList.Where(e => e > 0).Count());
     }
-    WriteResult("numbers > 0 from keyboard", $"{count42}", 0);
+
+    bool CheckInputDataOfDouble(string inputData)
+    {
+        return !String.IsNullOrEmpty(inputData) && double.TryParse(inputData, out double doubleNumb);
+    }
+
+    List<double> InputNumbersFromKeyboard(List<double> inputList)
+    {
+        Console.WriteLine("To End Enter number keep string empty");
+
+        int i = 1;
+        string inputString = String.Empty;
+        do
+        {
+            Console.WriteLine($"Enter {i} number");
+            inputString = Console.ReadLine()!;
+            if (CheckInputDataOfDouble(inputString)) { inputList.Add(Convert.ToDouble(inputString)); i++; }
+        }
+        while (!String.IsNullOrEmpty(inputString));
+
+        return inputList;
+    }
+
+    List<double> listNumbers = new List<double>();
+    int findCount = CountInputNumbers(InputNumbersFromKeyboard(listNumbers));
+    Console.WriteLine($"Count of Numbers upper 0 from keyboard = {findCount}");
 }
 void Programm043()
 {
@@ -944,22 +1010,37 @@ void Programm047()
 
 void ForProgramm2DArr(int[,] inputArr, List<double> result, int numbOfTask)
 {
+    int min = inputArr[0, 0];
+    int max = inputArr[0, 0];
+    int leng = 0;
+    double temp = 0;
     switch (numbOfTask)
     {
         case 0 | 1:
-            result.Add(0);
-            result.Add(1);
+            leng = 2;
             break;
         case 2:
-            result.Add(0);
-            result.Add(1);
+            leng = 2;
             break;
         case 3:
-            result.Add(0);
+            leng = 1;
+            break;
+        case 5:
+            leng = 4;
             break;
     }
+
+    for (int h = 0; h < leng; h++) result.Add(h);
+
     for (int i = 0; i < inputArr.GetLength(0); i++)
     {
+        // switch (numbOfTask)
+        // {
+        //     case 8:
+        //     temp = inputArr[i, 0];
+        //     break;
+        // }
+
         for (int j = 0; j < inputArr.GetLength(1); j++)
         {
             switch (numbOfTask)
@@ -991,57 +1072,394 @@ void ForProgramm2DArr(int[,] inputArr, List<double> result, int numbOfTask)
                 case 4:
                     if (i % 2 != 0 && j % 2 != 0 && inputArr[i, j] % 2 != 0)
                     {
-                        result.Add(i+1);
-                        result.Add(j+1);
+                        result.Add(i + 1);
+                        result.Add(j + 1);
                     }
+                    break;
+                case 5:
+                    if (inputArr[i, j] > max)
+                    {
+                        max = inputArr[i, j];
+                        result[0] = i;
+                        result[1] = j;
+                    }
+                    if (inputArr[i, j] < min)
+                    {
+                        min = inputArr[i, j];
+                        result[2] = i;
+                        result[3] = j;
+                    }
+                    break;
+                case 6:
+                    temp = Math.Pow(inputArr[i, j], 2);
+                    inputArr[i, j] = Convert.ToInt32(Math.Round(temp));
+                    break;
+                case 7:
+                    if (j == 0)
+                    {
+                        result.Add(inputArr[i, j]);
+                    }
+                    break;
+                case 8:
+                    result.Add(inputArr[i, j]);
+                    if (j == inputArr.GetLength(1) - 1) result.Add(0);
                     break;
             }
         }
+        // switch (numbOfTask)
+        // {
+        //     case 8:
+        //     result.Add(i);
+        //     break;
+        // }
+    }
+    switch (numbOfTask)
+    {
+        case 5:
+            inputArr[Convert.ToInt32(result[0]), Convert.ToInt32(result[1])] = min;
+            inputArr[Convert.ToInt32(result[2]), Convert.ToInt32(result[3])] = max;
+            break;
     }
 }
 
 void Programm048()
 {
-    string start48 = "Дан целочисленный двумерный массив, размерности n х m. Найти сумму и произведение всех элементов массива.";
-    FrameworkTo2DArray(start48, out List<double> resultArr48, 0);
+    int[,] Arr2D48 = FrameworkTo2DArray("Дан целочисленный двумерный массив, размерности n х m. Найти сумму и произведение всех элементов массива.");
+    List<double> resultArr48 = new List<double>();
+    ForProgramm2DArr(Arr2D48, resultArr48, 0);
     WriteResult("summ", $"{resultArr48[0]}", 0);
     WriteResult("multiplication", $"{resultArr48[1]}", 0);
 }
 
 void Programm049()
 {
-    string start49 = "Дан целочисленный двумерный массив, размерности n х m. Найти сумму и произведение четных элементов.";
-    FrameworkTo2DArray(start49, out List<double> resultArr49, 1);
+    int[,] Arr2D49 = FrameworkTo2DArray("Дан целочисленный двумерный массив, размерности n х m. Найти сумму и произведение четных элементов.");
+    List<double> resultArr49 = new List<double>();
+    ForProgramm2DArr(Arr2D49, resultArr49, 1);
     WriteResult("summ", $"{resultArr49[0]}", 0);
     WriteResult("multiplication", $"{resultArr49[1]}", 0);
 }
 
 void Programm050()
 {
-    string start50 = "Дан целочисленный двумерный массив, размерности n х m. Найти сумму и произведение элементов, кратных 3 и 5.";
-    FrameworkTo2DArray(start50, out List<double> resultArr50, 2);
+    int[,] Arr2D50 = FrameworkTo2DArray("Дан целочисленный двумерный массив, размерности n х m. Найти сумму и произведение элементов, кратных 3 и 5.");
+    List<double> resultArr50 = new List<double>();
+    ForProgramm2DArr(Arr2D50, resultArr50, 2);
     WriteResult("summ", $"{resultArr50[0]}", 0);
     WriteResult("multiplication", $"{resultArr50[1]}", 0);
 }
 
 void Programm051()
 {
-    string start51 = "Дан целочисленный двумерный массив, размерности n х m. Найти количество отрицательных элементов, больше -9.";
-    FrameworkTo2DArray(start51, out List<double> resultArr51, 3);
+    int[,] Arr2D51 = FrameworkTo2DArray("Дан целочисленный двумерный массив, размерности n х m. Найти количество отрицательных элементов, больше -9.");
+    List<double> resultArr51 = new List<double>();
+    ForProgramm2DArr(Arr2D51, resultArr51, 3);
     WriteResult("count of elements > -9", $"{resultArr51[0]}", 0);
 }
 
 void Programm052()
 {
-    string start52 = "Дан целочисленный двумерный массив, размерности n х m. Найти номера нечетных элементов, стоящих на четных местах. ";
-    FrameworkTo2DArray(start52, out List<double> resultArr52, 4);
+    string start52 = "Дан целочисленный двумерный массив, размерности n х m. Найти номера нечетных элементов, стоящих на четных местах.";
+    List<double> resultArr52 = new List<double>();
+    ForProgramm2DArr(FrameworkTo2DArray(start52), resultArr52, 4);
     WriteResult("not even numbs on even", "", 0);
     for (int i = 1; i < resultArr52.Count; i += 2) { Console.Write("[{0}, {1}]", resultArr52[i - 1], resultArr52[i]); Console.WriteLine(); }
 }
 
+void Programm053()
+{
+    int[,] Arr2D53 = FrameworkTo2DArray("Дан целочисленный двумерный массив, размерности n х m. Найти максимум и минимум. Поменять их местами.");
+    List<double> resultArr53 = new List<double>();
+    ForProgramm2DArr(Arr2D53, resultArr53, 5);
+    WriteResult("change cells", "", 0);
+    Print2DArray(Arr2D53);
+}
+
+void Programm054()
+{
+    int[,] Arr2D54 = FrameworkTo2DArray("Дан целочисленный двумерный массив, размерности n х m. Заменить все элементы на их квадраты.");
+    List<double> resultArr54 = new List<double>();
+    ForProgramm2DArr(Arr2D54, resultArr54, 6);
+    WriteResult("^2", "", 0);
+    Print2DArray(Arr2D54);
+}
+
+void Programm055()
+{
+    string start55 = "Дан целочисленный двумерный массив, размерности n х m. Найти среднее арифметическое всех элементов массива.";
+    string[] currArr55 = { "4", "4", "0", "10" };
+    List<double> resultArr55 = FrameworkTo2DArray2(start55, currArr55, 0, out int[,] Arr2D55);
+    int result55 = Convert.ToInt32(resultArr55[0]) / (Arr2D55.GetLength(0) * Arr2D55.GetLength(1));
+    WriteResult("avg", "", 0);
+}
+
+void Programm056()
+{
+    string start56 = "Дан целочисленный двумерный массив, размерности n х m. Выяснить, какое число встречается в какой строке раньше — положительное или отрицательное.";
+    string[] currArr56 = { "4", "4", "0", "10" };
+    List<double> resultArr56 = FrameworkTo2DArray2(start56, currArr56, 7, out int[,] Arr2D56);
+    for (int i = 0; i < resultArr56.Count; i++)
+    {
+        if (resultArr56[i] >= 0) WriteResult($"{i} cow", "+", 0);
+        else WriteResult($"{i} cow", "-", 0);
+    }
+}
+
+void Programm057()
+{
+    int[,] Arr2D57 = FrameworkTo2DArray("Дан целочисленный двумерный массив, размерности n х m. Выяснить, в какой строке последовательность является возрастающей или убывающей.");
+    List<string> resultArr = new List<string>();
+    int countU = 0, countD = 0;
+    for (int i = 0; i < Arr2D57.GetLength(0); i++)
+    {
+        countU = 0; countD = 0;
+        for (int j = 0; j < Arr2D57.GetLength(1) - 1; j++)
+        {
+            if (Arr2D57[i, j] < Arr2D57[i, j + 1]) countU++;
+            if (Arr2D57[i, j] > Arr2D57[i, j + 1]) countD++;
+        }
+        if (countU == Arr2D57.GetLength(1) - 1) resultArr.Add($"cow {i + 1}: " + "have Positive");
+        else if (countD == Arr2D57.GetLength(1) - 1) resultArr.Add($"cow {i + 1}: " + "have Negative");
+        else resultArr.Add($"cow {i + 1}: " + "have 'Not up or down array'");
+    }
+    WriteResult("cow position", "", 0);
+    foreach (string s in resultArr) Console.WriteLine(s);
+}
+
+void Programm058()
+{
+    int[,] Arr2D58 = FrameworkTo2DArray("Дан целочисленный двумерный массив, размерности n х m. Вывести его элементы, индексы которых являются степенями двойки (1, 2, 4, 8, 16, ...).");
+    List<int> resultArr = new List<int>();
 
 
-//
+    for (int i = 1; i < Arr2D58.GetLength(0); i *= 2)
+    {
+        for (int j = 1; j < Arr2D58.GetLength(1); j *= 2)
+        {
+            if (i == j) resultArr.Add(Arr2D58[i - 1, j - 1]);
+        }
+    }
+    WriteResult("2^n position", "", 0);
+    foreach (int s in resultArr) Console.WriteLine(s);
+}
+void Programm059()
+{
+    int[,] Arr2D59 = FrameworkTo2DArray("Дан целочисленный двумерный массив, размерности n х m. Найти количество элементов кратных 7.");
+    List<int> resultArr = new List<int>();
+    resultArr.Add(0);
+    for (int i = 0; i < Arr2D59.GetLength(0); i++)
+    {
+        for (int j = 0; j < Arr2D59.GetLength(1); j++)
+        {
+            if (Arr2D59[i, j] % 7 == 0) resultArr[0]++;
+        }
+    }
+    WriteResult("%7", $"{resultArr[0]}", 0);
+}
+
+void Programm060()
+{
+    int[,] Arr2D60 = FrameworkTo2DArray("Дан целочисленный двумерный массив, размерности n х m. Вывести на экран элементы, которые являются квадратами какого-либо числа.");
+    List<int> resultArr = new List<int>();
+    for (int i = 0; i < Arr2D60.GetLength(0); i++)
+    {
+        for (int j = 0; j < Arr2D60.GetLength(1); j++)
+        {
+            if (Math.Sqrt(Arr2D60[i, j]) == Math.Truncate(Math.Sqrt(Arr2D60[i, j]))) resultArr.Add(Arr2D60[i, j]);
+        }
+    }
+    WriteResult("^2", $"", 0);
+    foreach (int s in resultArr) Console.WriteLine(s);
+}
+
+void Programm061()
+{
+    int[,] Arr2D61 = FrameworkTo2DArray("Дан целочисленный двумерный массив, размерности n х m. Заменить все элементы на их противоположные значения.");
+    int temp = 0;
+    for (int i = 0; i < Arr2D61.GetLength(0); i++)
+    {
+        for (int j = 0; j < Arr2D61.GetLength(1); j++)
+        {
+            temp = Arr2D61[i, j];
+            Arr2D61[i, j] = (-1) * temp;
+        }
+    }
+    WriteResult("opposite array", $"", 0);
+    Print2DArray(Arr2D61);
+}
+
+void Programm062()
+{
+    int[,] Arr2D62 = FrameworkTo2DArray("Дан целочисленный двумерный массив, размерности n х m. Поменять местами первый и последний элементы.");
+    int temp = 0;
+    int x = Arr2D62.GetLength(0) - 1, y = Arr2D62.GetLength(1) - 1;
+    temp = Arr2D62[x, y];
+    Arr2D62[x, y] = Arr2D62[0, 0];
+    Arr2D62[0, 0] = temp;
+    WriteResult("opposite first and last numb", "", 0);
+    Print2DArray(Arr2D62);
+}
+
+void Programm063()
+{
+    int[,] Arr2D63 = FrameworkTo2DArray("Дан целочисленный двумерный массив, размерности n х m. Вывести на экран те элементы, у которых остаток от деления на m равен k.");
+    List<int> resultArr = new List<int>();
+    int k = 3;
+    for (int n = 0; n < Arr2D63.GetLength(0); n++)
+    {
+        for (int m = 0; m < Arr2D63.GetLength(1); m++)
+        {
+            if (Arr2D63[n, m] % m == k) resultArr.Add(Arr2D63[n, m]);
+        }
+    }
+    WriteResult("opposite first and last numb", "", 0);
+    Print2DArray(Arr2D63);
+}
+
+void Programm064()
+{
+    string[] start63 = { "Вводятся результаты контрольной работы 10 учащихся. Определите число не удовлетворительных, удовлетворительных, хороших, отличных оценок. Вывести среднюю оценку, полученную учащимися за контрольную работу.", "Enter", "Int32,1" };
+    string[] currArr63 = { "Иванов", "Петров", "Сидоров", "Каменская", "Иванова", "Ученикова", "Школьнов", "Класснов", "Доскова", "Указкина" };
+    string[,] resultArr63 = { {"Отлично", "Хорошо", "Удовлетворительно", "Не удовлетворительно", "Средняя оценка за класс" },
+                                {"0","0","0","0","0"}};
+    int stud5 = 0, stud4 = 0, stud3 = 0, stud2 = 0, temp = 0, summ = 0;
+    Start(start63, ref currArr63);
+    for (int i = 0; i < currArr63.Length; i++)
+    {
+        temp = Convert.ToInt32(currArr63[i]);
+        if (temp == 5) stud5++;
+        if (temp == 4) stud4++;
+        if (temp == 3) stud3++;
+        if (temp == 2) stud2++;
+        summ += temp;
+    }
+    resultArr63[1, 0] = Convert.ToString(stud5);
+    resultArr63[1, 1] = Convert.ToString(stud4);
+    resultArr63[1, 2] = Convert.ToString(stud3);
+    resultArr63[1, 3] = Convert.ToString(stud2);
+    double avg = (double)summ / currArr63.Length;
+    resultArr63[1, 4] = $"{avg}";
+
+    WriteResult("students", "", 0);
+    for (int i = 0; i < resultArr63.GetLength(1); i++)
+    {
+        for (int j = 0; j < resultArr63.GetLength(0); j++) Console.Write("{0}   ", resultArr63[j, i]);
+        Console.WriteLine();
+    }
+}
+
+void Programm065()
+{
+    string[] start63 = { "Ввести оценки N учеников по K предметам. Определить и вывести на экран количество учеников, не получивших ни одной 5", "Enter", "Int32,1" };
+    string[,] resultArr63 = { { "", "Алгебра", "Геометрия", "Литература" },
+                              { "Каменская", "4", "4", "4"},
+                              { "Иванова", "4", "4", "4" },
+                              { "Школьнов", "5", "5", "5" },
+                              { "Доскова", "5", "5", "5" }
+                                                                        };
+
+    int j;
+    for (j = 0; j < resultArr63.GetLength(1); j++) Console.Write("{0,10} |", resultArr63[0, j]);
+    Console.WriteLine();
+    int temp = 0, summ = 0;
+    for (int i = 1; i < resultArr63.GetLength(0); i++)
+    {
+        for (j = 0; j < resultArr63.GetLength(1); j++) Console.Write("{0,10} |", resultArr63[i, j]);
+        Console.WriteLine();
+    }
+    for (int i = 1; i < resultArr63.GetLength(0); i++)
+    {
+        j = 1;
+        for (; j < resultArr63.GetLength(1); j++)
+        {
+            temp = Convert.ToInt32(resultArr63[i, j]);
+            if (temp == 5) break;
+        }
+        if (j == resultArr63.GetLength(1)) summ++;
+    }
+    WriteResult("students", $"{summ}", 0);
+}
+
+void Programm066()
+{
+    string[] start63 = { "В группе учится N студентов, студенты получили по четыре отметки за экзамен. Определить количество неуспевающих студентов и средний балл группы", "Enter", "Int32,1" };
+    string[,] resultArr63 = { { "", "Алгебра", "Геометрия", "Литература", "География" },
+                              { "Каменская", "4", "4", "4", "5"},
+                              { "Иванова", "4", "4", "4", "5"},
+                              { "Школьнов", "2", "2", "2", "2" },
+                              { "Доскова", "5", "5", "5", "5" }
+                                                                };
+
+    int summ = 0;
+    double avg = 0, avgnumb = 2.6, oneAvg = 0, numb;
+    for (int i = 1; i < resultArr63.GetLength(0); i++)
+    {
+        numb = 0;
+        oneAvg = 0;
+        for (int j = 1; j < resultArr63.GetLength(1); j++)
+        {
+            numb += Convert.ToInt32(resultArr63[i, j]);
+        }
+        oneAvg = numb / (resultArr63.GetLength(1) - 1);
+        if (oneAvg < avgnumb) summ++;
+        avg += oneAvg;
+    }
+    double avgAll = avg / (resultArr63.GetLength(0) - 1);
+    WriteResult("students with 2", $"{summ}", 0);
+    WriteResult("avg all studens", $"{avgAll}", 0);
+}
+
+bool Fibonachhi(int input, int method)
+{
+    bool b = false;
+    switch (method)
+    {
+        case 1:
+            int n, f, k;
+            for (n = 0, f = 1, k = 0; !(n >= input || k >= input || f >= input);)
+            {
+                n = f + k;
+                k = n + f;
+                f = k + n;
+            }
+            b = n == input || k == input || f == input;
+            break;
+        case 2:
+            b = (Math.Sqrt(5 * Math.Pow(input, 2) - 4) % 1 == 0 || Math.Sqrt(5 * Math.Pow(input, 2) + 4) % 1 == 0);
+            break;
+    }
+    return b;
+}
+
+
+void Programm067()
+{
+    int[,] Arr2D63 = FrameworkTo2DArray("Дан целочисленный двумерный массив, размерности n х m. Вычислить сумму чисел, порядковые номера которых являются числами фибоначчи.");
+    List<int> resultArr = new List<int>();
+    int summ = 0;
+    for (int n = 0; n < Arr2D63.GetLength(0); n++)
+    {
+        for (int m = 0; m < Arr2D63.GetLength(1); m++)
+        {
+            if (Fibonachhi(n + 1, 1) && Fibonachhi(m + 1, 1)) summ += Arr2D63[n, m];
+        }
+    }
+    WriteResult("summ index of Fibonacci", $"{summ}", 0);
+}
+
+// 
+//Ввести оценки N учеников по K предметам. Определить и вывести на экран количество учеников, не получивших ни одной "5"
+// int max = 0, min = 0;
+//     for (int i = 0; i < Arr2D58.GetLength(0); i++)
+//     {
+//         for (int j = 0; j < Arr2D58.GetLength(1) - 1; j++)
+//         {
+//             if (max < Arr2D58[i, j]) max = Arr2D58[i, j];
+//             if (min > Arr2D58[i, j]) min = Arr2D58[i, j];
+//         }
+//     }
+
+
 // Main
 // Console.WriteLine("Введите свое имя");
 // var name = Console.ReadLine()!;
