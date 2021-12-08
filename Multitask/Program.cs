@@ -1409,6 +1409,12 @@ void Programm066()
     WriteResult("avg all studens", $"{avgAll}", 0);
 }
 
+void Programm067()
+{
+    
+}
+
+
 bool Fibonachhi(int input, int method)
 {
     bool b = false;
@@ -1447,17 +1453,125 @@ void Programm067()
     WriteResult("summ index of Fibonacci", $"{summ}", 0);
 }
 
-// 
-//Ввести оценки N учеников по K предметам. Определить и вывести на экран количество учеников, не получивших ни одной "5"
-// int max = 0, min = 0;
-//     for (int i = 0; i < Arr2D58.GetLength(0); i++)
-//     {
-//         for (int j = 0; j < Arr2D58.GetLength(1) - 1; j++)
-//         {
-//             if (max < Arr2D58[i, j]) max = Arr2D58[i, j];
-//             if (min > Arr2D58[i, j]) min = Arr2D58[i, j];
-//         }
-//     }
+void Recursion()
+{
+    int M = 0, N = 5;
+    void Program001003()
+    {
+        int ShowNumberN(int m, int n)
+        {
+            if (m == n) return n;
+            else
+            {
+                Console.Write($"{m} ");
+                return ShowNumberN(m + 1, n);
+            }
+        }
+        Console.Write(ShowNumberN(M, N));
+    }
+    void Program004()
+    {
+        int SummaryElements(int m, int n)
+        {
+            if (m == n) return n;
+            else return SummaryElements(m + 1, n) + m;
+        }
+        Console.Write(SummaryElements(M, N));
+    }
+
+    void Program005()
+    {
+        int SummaryUnitsOfNumber(int unit)
+        {
+            if (unit / 10 == 0) return unit;
+            else return SummaryUnitsOfNumber(unit % 10) + SummaryUnitsOfNumber(unit / 10);
+        }
+        Console.Write(SummaryUnitsOfNumber(352));
+    }
+
+    void Programm0051()
+    {
+        double SummaryUnitsOfNumber(string unit, int count = 0)
+        {
+            if (count != unit.Length) return Char.GetNumericValue(unit[count]) + SummaryUnitsOfNumber(unit, count + 1);
+            else return 0;
+        }
+        Console.Write(SummaryUnitsOfNumber("1234567891234567891234567890"));
+    }
+
+
+    void Program006()
+    {
+        int Hyper(int m, int n)
+        {
+            if (m == 0) return n + 1;
+            else if (m > 0 && n == 0) return Hyper(m - 1, 1);
+            else return Hyper(m - 1, Hyper(m, n - 1));
+        }
+        Console.Write(Hyper(3, 5));
+    }
+
+    void Program007()
+    {
+        int Pow(int m, int n)
+        {
+            if (n == 0) return 1;
+            else return Pow(m, n - 1) * m;
+        }
+        Console.Write(Pow(M, N));
+    }
+
+    void Program008()
+    {
+        double Fibonacci(double n)
+        {
+            if (n == 1 || n == 2) return 1;
+            else return Fibonacci(n - 1) + Fibonacci(n - 2);
+        }
+        void CustomFibonacci(int m, int n)
+        {
+            if (m == n) Console.Write($"{Fibonacci(m)} ");
+            else
+            {
+                Console.Write($"{Fibonacci(m)} ");
+                CustomFibonacci(m + 1, n);
+            }
+        }
+        CustomFibonacci(M, N);
+    }
+
+    void Programm009()
+    {
+
+        string findSymbol = "abcd";
+        int countWords = 5;
+        int c = 0;
+        void FindCountWordsFromChar(string symbols, char[] resultString, ref int c, int length = 0)
+        {
+            if (length == resultString.Length) { c++; return; }
+            else
+            {
+                for (int i = 0; i < symbols.Length; i++)
+                {
+                    resultString[length] = symbols[i];
+                    FindCountWordsFromChar(symbols, resultString, ref c, length + 1);
+                }
+            }
+        }
+        FindCountWordsFromChar(findSymbol, new char[countWords], ref c);
+        System.Console.WriteLine(c);
+    }
+
+    void Programm010()
+    {
+        double Factorial(double a)
+        {
+            if (a == 0) return 1;
+            else return a * Factorial(a - 1);
+        }
+        System.Console.WriteLine(Factorial(10));
+    }
+}
 
 
 // Main
