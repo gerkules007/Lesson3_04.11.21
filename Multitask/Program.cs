@@ -1411,7 +1411,15 @@ void Programm066()
 
 void Programm067()
 {
-    
+    int[,] Arr2D67 = FrameworkTo2DArray("В матрице чисел найти сумму элементов главной диагонали");
+    List<int> resultArr = new List<int>();
+    int summ = 0;
+    for (int n = 0; n < Arr2D67.GetLength(0) || n < Arr2D67.GetLength(1); n++)
+    {
+        summ += Arr2D67[n, n];
+    }
+    WriteResult("summary of diagonal", "", 0);
+    Print2DArray(Arr2D67);
 }
 
 
