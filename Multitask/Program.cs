@@ -1473,6 +1473,43 @@ void Programm068()
     Print2DArray(Arr2D68);
 }
 
+void Programm069()
+{
+    int[,] Refill2DArray(int[,] Arr2D)
+    {
+        if (Arr2D.GetLength(0) == Arr2D.GetLength(1))
+        {
+            int[,] newArr = new int[Arr2D.GetLength(0), Arr2D.GetLength(1)];
+            for (int n = 0; n < Arr2D.GetLength(0); n++)
+            {
+                for (int m = 0; m < Arr2D.GetLength(1); m++)
+                {
+                    newArr[m, n] = Arr2D[n, m];
+                }
+            }
+            return newArr;
+        }
+        else
+        {
+            int[,] newArr = new int[Arr2D.GetLength(1), Arr2D.GetLength(0)];
+            for (int n = 0; n < Arr2D.GetLength(1); n++)
+            {
+                for (int m = Arr2D.GetLength(0) - 1; m >= 0; m--)
+                {
+                    newArr[n, Arr2D.GetLength(0) - 1 - m] = Arr2D[m, n];
+                }
+            }
+            return newArr;
+        }
+    }
+
+    int[,] Arr2D68 = FrameworkTo2DArray("");
+    Print2DArray(Arr2D68);
+    int[,] newArr2D = Refill2DArray(Arr2D68);
+    Console.WriteLine();
+    Print2DArray(newArr2D);
+}
+
 
 
 
