@@ -1510,8 +1510,38 @@ void Programm069()
     Print2DArray(newArr2D);
 }
 
-
-
+void Programm070()
+{
+    int[,] MultiplicationMatrix(int[,] f, int[,] s)
+    {
+        if (f.GetLength(1) == s.GetLength(0))
+        {
+            int sum;
+            int[,] c = new int[f.GetLength(0), s.GetLength(1)];
+            for (int i = 0; i < c.GetLength(0); i++)
+            {
+                for (int n = 0; n < c.GetLength(1); n++)
+                {
+                    sum = 0;
+                    for (int m = 0; m < f.GetLength(1); m++)
+                    {
+                        sum += f[i, m] * s[m, n];
+                    }
+                    c[n, i] = sum;
+                }
+            }
+            return c;
+        }
+        else { System.Console.WriteLine("Couldn't take multiplication from matrix"); return f; }
+    }
+    int[,] a = {{4,1,3},
+            {1,2,3}};
+    int[,] b = {{4,1},
+            {1,2},
+            {3,4}};
+    int[,] c = MultiplicationMatrix(a, b);
+    Print2DArray(c);
+}
 
 bool Fibonachhi(int input, int method)
 {
