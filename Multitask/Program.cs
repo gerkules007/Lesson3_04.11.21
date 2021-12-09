@@ -1422,6 +1422,59 @@ void Programm067()
     Print2DArray(Arr2D67);
 }
 
+void Programm068()
+{
+    void SortArray(int[] sortArr)
+    {
+        int temp;
+        for (int n = 0; n < sortArr.Length; n++)
+        {
+            for (int m = 0; m < sortArr.Length - 1; m++)
+            {
+                if (sortArr[m] < sortArr[m + 1])
+                {
+                    temp = sortArr[m + 1];
+                    sortArr[m + 1] = sortArr[m];
+                    sortArr[m] = temp;
+                }
+            }
+        }
+    }
+
+
+    int[] CreateFromSquare2DTo1DArray(int[,] Arr2D)
+    {
+        int[] newArr = new int[Arr2D.GetLength(0) * Arr2D.GetLength(1)];
+        int ratio = Arr2D.GetLength(0);
+        for (int i = 0; i < newArr.Length; i++)
+        {
+            newArr[i] = Arr2D[i / ratio, i % ratio];
+        }
+        return newArr;
+    }
+
+    void FillFrom1DToSquare2DArray(int[] Arr, int[,] Arr2D)
+    {
+        for (int n = 0, i = 0; n < Arr2D.GetLength(0); n++)
+        {
+            for (int m = 0; m < Arr2D.GetLength(1); m++, i++)
+            {
+                Arr2D[n, m] = Arr[i];
+            }
+        }
+    }
+
+    int[,] Arr2D68 = FrameworkTo2DArray("Написать программу, упорядочивания по убыванию элементы каждой строки двумерной массива.");
+    Print2DArray(Arr2D68);
+    int[] newArr = CreateFromSquare2DTo1DArray(Arr2D68);
+    SortArray(newArr);
+    FillFrom1DToSquare2DArray(newArr, Arr2D68);
+    Console.WriteLine();
+    Print2DArray(Arr2D68);
+}
+
+
+
 
 bool Fibonachhi(int input, int method)
 {
